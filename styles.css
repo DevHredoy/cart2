@@ -6,8 +6,31 @@ background-color:orange;
 height:30%;
 }
 
+
+.cart-cards{
+margin:12px 12px 12px 12px;
+width:200px;
+flex-wrap:wrap;
+flex-direction:row;
+max-height:200px;
+box-sizing: border-box;
+border:2px solid greenyellow;
+overflow: hidden;
+}
+
+.eachcard{
+
+max-width: 70px;
+margin:6px 6px 6px 6px;
+border:4px solid  burlywood;
+
+
+
+}
+
 .root{
 display:flex;
+justify-content: space-between;
 flex-direction:row;
 margin:0px auto;
 max-height: 60%;
@@ -20,7 +43,20 @@ max-width:60%;
 height: 2px;
 background-color:black;
 
-    box-sizing: border-box;
+box-sizing: border-box;
 
+
+}
+
+.divider{
+margin-top:5px;
+height:15px;
+background-color:blue;
+
+}
+
+.image{
+max-width: 70px;
+margin:9px 9px 9px 9px;
 
 }
