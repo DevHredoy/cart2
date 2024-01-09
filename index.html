@@ -1,74 +1,40 @@
 <!DOCTYPE html><html lang="en">
 <head>
-    <meta name="viewport" content="display=display-width,initial-scaling=1"/>
     <link rel="stylesheet" href="styles.css"/>
-
+    <script src="https://kit.fontawesome.com/92d70a2fd8.js" crossorigin="anonymous"></script>
 </head>
 <body>
+ 
+ <!-- // inside header there will be ONE p tag and one icon -->
+ <div class="header">
+<p class="page-heading">Groccery shop</p>
+<div class="cart"><i class="fa-solid fa-cart-shopping"></i><p id="count">0</p></div>
+ </div>
+
+
+
+    
+ <!-- // inside container there will ba root div and a sidebar div -->
  <div class="container">
 
 
-
-    <header >
-        <h1 class="page-name">Logo</h1></header>
-<div class="root">
-    
-<div class="cart-cards">
-<div class="eachcard">
-    <img  Class="image "src="fruits/kiwi.webp"></img>
-    <div class="divider"></div>
-        <h2>fruit two</h2>
-        <p>price:14</p>
-
+<div id="root">
 </div>
-<div class="eachcard">
-    <img  Class="image" src="fruits/lichu.jpg"></img>
-    <div class="divider"></div>
-        <h2>fruit three</h2>
-        <p>price:21</p>
+<!-- inside sidebar all are direct child -->
+<div class="sidebar">
+<div class="head"><p>My Cart</p></div>
+<div class="cartItem">Your cart is empty</div>
+<div class="foot">
+<h3>Total</h3>
+<h2 id="total">$0.00</h2>
+
 
 </div>
 
-
-<div class="eachcard">
-    <img  Class="image" src="fruits/grape fruit.webp"></img>
-    <div class="divider"></div>
-        <h2>fruit four</h2>
-        <p>price:26</p>
-
 </div>
-
-<div class="eachcard">
-    <img  Class="image" src="fruits/grape fruit.webp"></img>
-    <div class="divider"></div>
-        <h2>fruit four</h2>
-        <p>price:26</p>
-
-</div>
-
-
-
-
-
-</div>
-<div class="summary">
-
-<div class="summary-container">
-    Your cart is empty
-    <h2 class="summary-header">My cart</h2>
-    <ul class="cards-summary"></ul>
-</div>
-<div class="summary-card-footer">
-    <div class="line"></div>
-<p class="total-statement">Total amount <span class="amount-digits"></span></p>
-
-</div>
-</div>
-</div>
-
+ </div>
 <script src="script.js"></script>
 
- </div>
 </body>
 
 
