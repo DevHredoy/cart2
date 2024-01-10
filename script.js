@@ -53,7 +53,7 @@ function displaycart(){
         document.getElementById("total").innerHTML = "$ "+0+".00";
     }
     else{
-        console.log(cart.length);
+        
         document.getElementById("cartItem").innerHTML = cart.map((items)=>
 
         {
