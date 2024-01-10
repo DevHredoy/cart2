@@ -2,9 +2,9 @@
 
 const fruitList=[
 
-{id:0,image:"basket/grape.jpg",title:"grapefruit",price:34,},
-{id:1,image:"basket/Bubblegum.jpeg",title:"bubblegum",price:23,},
-{id:2,image:"basket/lichu.jpg",title:"PIU",price:11,},
+{id:0,image:"basket/grape.jpg",title:"grape fruit",price:34,},
+{id:1,image:"basket/Bubblegum.jpeg",title:"bubblegum fruit",price:23,},
+{id:2,image:"basket/lichu.jpg",title:"Lichi",price:11,},
 {id:3,image:"basket/Loquat.jpg",title:"Loquat",price:23,}
 
 ];
