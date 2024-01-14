@@ -11,6 +11,11 @@ const uniqueFruits=[
 
 const myfruits=document.querySelector("#body-contents");
 
+
+
+
+
+
 let i=0;
 myfruits.innerHTML=uniqueFruits.map((item)=>
 {var{
@@ -18,7 +23,10 @@ image,title,price
 }=item;
 
 
+// onclick='addtocart("+(i++)+")' 
+
 return(
+    
     `<div class='box'>
         <div class='img-box'>
             <img class='images' src=${image}></img>
@@ -26,7 +34,7 @@ return(
     <div class='bottom'>
     <p>${title}</p>
     <h2>$ ${price}.00</h2>`+
-    "<button onclick='addtocart("+(i++)+")'>Add to cart</button>"+
+    "<button class='add-to-card-button'>Add to cart</button>"+
     `</div>
     </div>`
 )
