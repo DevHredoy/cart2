@@ -11,16 +11,20 @@ const uniqueFruits=[
 
 const myfruits=document.querySelector("#body-contents");
 
-
-
-
-
-
 let i=0;
+
+function sendToCart(i)
+{
+
+
+    
+}
+
+
+
 myfruits.innerHTML=uniqueFruits.map((item)=>
-{var{
-image,title,price
-}=item;
+{
+    var{image,title,price}=item;
 
 
 // onclick='addtocart("+(i++)+")' 
@@ -35,6 +39,7 @@ return(
     <p>${title}</p>
     <h2>$ ${price}.00</h2>`+
     "<button class='add-to-card-button'>Add to cart</button>"+
+    
     `</div>
     </div>`
 )
