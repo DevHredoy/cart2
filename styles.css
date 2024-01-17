@@ -60,7 +60,7 @@ background-color: rgb(226, 208, 185);
 
 
 
-.container{
+.root{
 display:flex;
 width:70%;
 margin-bottom:30px;
@@ -71,7 +71,7 @@ margin-bottom:30px;
 }
 
 
-#root{
+#body-contents{
 display:grid;
 width:60%;
 grid-template-columns:repeat(2,1fr);
