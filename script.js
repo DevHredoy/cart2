@@ -40,12 +40,45 @@ function delElement(a) {
 
 // this index is the index of that button which is also the index of that specific fruit(of the array) ,if the button is pressed that fruit
 //is shallow coppied from the fruit array then pushed inside the cart array.
-uniqueFruits.forEach((index) => {
+uniqueFruits.forEach((item, index) => {
     document.getElementById(`addToCartBtn_${index}`).addEventListener('click', () => addtocart(index));
 });
 
+cart.forEach((index)=>
+{document.getElementById(`deleteButton_${index}`).addEventListener('click',()=>delElement(index));}
+);
+
 function displaycart() {
     // Implement your cart display logic here
+    total=0;
+    document.getElementById("count").innerHTML=cart.length;
+    if(cart.length==0){
+        document.getElementById('cartItem').innerHTML = "Your cart is empty";
+        document.getElementById("total").innerHTML = "$ "+0+".00";
+    }
+    else{
+        
+        document.getElementById("cartItem").innerHTML = cart.map((items,j)=>
+
+        {
+            var {image, title, price} = items;
+            total=total+price;
+            document.getElementById("total").innerHTML = "$ "+total+".00";
+            return(
+                `<div class='cart-item'>
+                <div class='row-img'>
+                    <img class='rowimg' src=${image}>
+                </div>
+                <p style='font-size:12px;'>${title}</p>
+                <h2 style='font-size: 15px;'>$ ${price}.00</h2>
+                <i class='fa-solid fa-trash' id='deleteButton_${j}'></i></div>`
+            );
+        }).join('');
+    }
 
     
+
+
 }
+
+
