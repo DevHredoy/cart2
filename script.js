@@ -40,10 +40,12 @@ function delElement(a) {
 
 // this index is the index of that button which is also the index of that specific fruit(of the array) ,if the button is pressed that fruit
 //is shallow coppied from the fruit array then pushed inside the cart array.
-uniqueFruits.forEach((item, index) => {
+uniqueFruits.forEach((index) => {
     document.getElementById(`addToCartBtn_${index}`).addEventListener('click', () => addtocart(index));
 });
 
 function displaycart() {
     // Implement your cart display logic here
+
+    
 }
