@@ -53,7 +53,14 @@ background-color: rgb(226, 208, 185);
 }
 
 
+.dltButton{
+height:32px;
+width:6px;
+font-size:12px;
+margin:12px auto;
 
+
+}
 
 
 .fa-solid{color:rgb(97, 150, 194);}
