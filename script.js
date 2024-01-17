@@ -33,7 +33,7 @@ function addtocart(index) {
 }
 
 function delElement(a) {
-    console.log("a: ",a)
+    
     cart.splice(a, 1);
     displaycart();
 
@@ -48,7 +48,7 @@ uniqueFruits.forEach((item,index) => {
 
 cart.forEach((index)=>
 {document.getElementById(`deleteButton_${index}`).addEventListener('click',()=>delElement(index));
-console.log("delete button id:",index)}
+}
 );
 
 function displaycart() {
