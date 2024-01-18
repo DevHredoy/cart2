@@ -54,7 +54,7 @@ cart.forEach((index)=>
 function displaycart() {
     
    
-    total=0;
+    let total=0;
     document.getElementById("count").innerHTML=cart.length;
     if(cart.length==0){
         document.getElementById('cartItem').innerHTML = "Your cart is empty";
