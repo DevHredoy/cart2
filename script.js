@@ -54,7 +54,7 @@ console.log("delete button id:",index)}
 function displaycart() {
     
    
-    total=0;
+    let total=0;
     document.getElementById("count").innerHTML=cart.length;
     if(cart.length==0){
         document.getElementById('cartItem').innerHTML = "Your cart is empty";
@@ -75,7 +75,7 @@ function displaycart() {
                 </div>
                 <p style='font-size:12px;'>${title}</p>
                 <h2 style='font-size: 15px;'>$ ${price}.00</h2>
-                <button id='deleteButton_${j}'>dlt</button>
+                <button class="dltButton" id='deleteButton_${j}'>dlt</button>
                 
                 </div>`
             

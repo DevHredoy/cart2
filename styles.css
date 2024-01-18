@@ -55,7 +55,7 @@ background-color: rgb(226, 208, 185);
 
 .dltButton{
 height:32px;
-width:6px;
+max-width:3px;
 font-size:12px;
 margin:12px auto;
 
