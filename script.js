@@ -4,12 +4,7 @@ const uniqueFruits = [
     { id: 2, image: "basket/lichu.jpg", title: "Lichi", price: 11 },
     { id: 3, image: "basket/Loquat.jpg", title: "Loquat", price: 23 }
 ];
-// { WE have to modify the ammount against an id.for example in addtoCart() we shall increment the ammount in terms of the id of each of object
 
-//, so this time what we will do is  from unique fruit we shall make a new list 
-
-
-//of fruits where a new variable will be included and in }
 
 const modifiedFruitList=uniqueFruits.map((fruit)=>{
     return{...fruit,amount:0}
@@ -19,10 +14,10 @@ const modifiedFruitList=uniqueFruits.map((fruit)=>{
 const myfruits = document.querySelector("#body-contents");
 
 
-
+var totalquantity=0;
 
 myfruits.innerHTML = modifiedFruitList.map((item, i) => {
-    console.log("i:",i);
+
     var { image, title, price } = item;
     return (
         `<div class='box'>
@@ -40,86 +35,79 @@ myfruits.innerHTML = modifiedFruitList.map((item, i) => {
 
 var cart = [];
 
-// this new array will save amount of fruits in terms of the sequence of landing page
-
-
-
-
-
-
-//1.this function will check if this fruit is already exiting in the cart or not
-//if it finds that in the cart then it will do something else
 function addtocart(index) {
-    if(modifiedFruitList[index].amount>1)///////here
+    var  idOfFruit=index;
+    if(modifiedFruitList[index].amount==0)
     {
         modifiedFruitList[index].amount++;
-
-    }
-    else{
-        modifiedFruitList[index].amount++;    
-    cart.push({ ...modifiedFruitList[index] });
-    console.log(cart);
-    displaycart();
-   
-    }
-}
-
-
-//revised version
-
-
-function addtocart(index) {
-    if(modifiedFruitList[index].amount==0)///////here
-    {
-        modifiedFruitList[index].amount++;    
+        totalquantity++;    
+        
         cart.push({ ...modifiedFruitList[index] });
-        console.log(cart);
+       
         displaycart();
+        console.log("addtoC pressed,first element:")
 
     }
     else{
-        modifiedFruitList[index].amount++;    
-        console.log("amount of this ",index,"item:",modifiedFruitList[index].amount);
-    displaycart();
+        console.log("addtoC pressed,more  elements:")
+        cart.forEach((value,i)=>{
+
+            var {id}=value;
+            if(id==idOfFruit)
+            {
+                cart[i].amount++;
+                totalquantity++;
+                console.log("total:",total)
+                //console.log("cart[i].amount:",cart[i].amount);
+            }
+            
+            });
+        displaycart();
+       
    
     }
 }
-
-
-
-
-
-
-
-
 
 
 function delElement(a) {
     
+
+    console.log("cart to be deleted:",cart[a])
+    let tobeless=cart[a].amount;
+    console.log("tobeLess:",cart[a].amount)
+    totalquantity=totalquantity-tobeless;
+
+    //also updating amount of this fruit in modified list
+
+    let sourceId=cart[a].id;
+    modifiedFruitList[sourceId].amount=0;
+
+    console.log("fruit:",modifiedFruitList[sourceId].title,"amount is:",modifiedFruitList[sourceId].amount)
     cart.splice(a, 1);
     displaycart();
+    //console.log("delete button pressed");
+    
 
 }
 
 
-// this index is the index of that button which is also the index of that specific fruit(of the array) ,if the button is pressed that fruit
-//is shallow coppied from the fruit array then pushed inside the cart array.
+
 modifiedFruitList.forEach((item,index) => {
     document.getElementById(`addToCartBtn_${index}`).addEventListener('click', () => addtocart(index));
 });
 
 
 
-cart.forEach((index)=>
-{document.getElementById(`deleteButton_${index}`).addEventListener('click',()=>delElement(index));
-}
-);
+// cart.forEach((item,index)=>
+// {document.getElementById(`deleteButton_${index}`).addEventListener('click',()=>delElement(index));
+// }
+// );
 
 function displaycart() {
+    let total=0;
     
    
-    let total=0;
-    document.getElementById("count").innerHTML=cart.length;
+    document.getElementById("count").innerHTML=totalquantity;
     if(cart.length==0){
         document.getElementById('cartItem').innerHTML = "Your cart is empty";
         document.getElementById("total").innerHTML = "$ "+0+".00";
@@ -128,9 +116,15 @@ function displaycart() {
         
         document.getElementById("cartItem").innerHTML = cart.map((items,j)=>
 
-        {    console.log("j:",j);
+        {    
             var {image, title, price,amount} = items;
-            total=total+price;
+
+            let totalPrice=price*amount;
+            //change 2
+           // total=total+price;
+           total=total+totalPrice;
+
+
             document.getElementById("total").innerHTML = "$ "+total+".00";
             return(
                 `<div class='cart-item'>
@@ -147,6 +141,12 @@ function displaycart() {
                 );
             
         }).join('');
+        cart.forEach((item,index)=>
+{document.getElementById(`deleteButton_${index}`).addEventListener('click',()=>delElement(index));
+}
+);
+
+
     }
 
     
