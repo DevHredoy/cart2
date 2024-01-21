@@ -5,10 +5,19 @@ const uniqueFruits = [
     { id: 3, image: "basket/Loquat.jpg", title: "Loquat", price: 23 }
 ];
 
+
+const modifiedFruitList=uniqueFruits.map((fruit)=>{
+    return{...fruit,amount:0}
+
+});
+
 const myfruits = document.querySelector("#body-contents");
 
-myfruits.innerHTML = uniqueFruits.map((item, i) => {
-    console.log("i:",i);
+
+var totalquantity=0;
+
+myfruits.innerHTML = modifiedFruitList.map((item, i) => {
+
     var { image, title, price } = item;
     return (
         `<div class='box'>
@@ -27,35 +36,78 @@ myfruits.innerHTML = uniqueFruits.map((item, i) => {
 var cart = [];
 
 function addtocart(index) {
-    cart.push({ ...uniqueFruits[index] });
-    console.log(cart);
-    displaycart();
+    var  idOfFruit=index;
+    if(modifiedFruitList[index].amount==0)
+    {
+        modifiedFruitList[index].amount++;
+        totalquantity++;    
+        
+        cart.push({ ...modifiedFruitList[index] });
+       
+        displaycart();
+        console.log("addtoC pressed,first element:")
+
+    }
+    else{
+        console.log("addtoC pressed,more  elements:")
+        cart.forEach((value,i)=>{
+
+            var {id}=value;
+            if(id==idOfFruit)
+            {
+                cart[i].amount++;
+                totalquantity++;
+                console.log("total:",total)
+                //console.log("cart[i].amount:",cart[i].amount);
+            }
+            
+            });
+        displaycart();
+       
+   
+    }
 }
+
 
 function delElement(a) {
     
+
+    console.log("cart to be deleted:",cart[a])
+    let tobeless=cart[a].amount;
+    console.log("tobeLess:",cart[a].amount)
+    totalquantity=totalquantity-tobeless;
+
+    //also updating amount of this fruit in modified list
+
+    let sourceId=cart[a].id;
+    modifiedFruitList[sourceId].amount=0;
+
+    console.log("fruit:",modifiedFruitList[sourceId].title,"amount is:",modifiedFruitList[sourceId].amount)
     cart.splice(a, 1);
     displaycart();
+    //console.log("delete button pressed");
+    
 
 }
 
 
-// this index is the index of that button which is also the index of that specific fruit(of the array) ,if the button is pressed that fruit
-//is shallow coppied from the fruit array then pushed inside the cart array.
-uniqueFruits.forEach((item,index) => {
+
+modifiedFruitList.forEach((item,index) => {
     document.getElementById(`addToCartBtn_${index}`).addEventListener('click', () => addtocart(index));
 });
 
-cart.forEach((index)=>
-{document.getElementById(`deleteButton_${index}`).addEventListener('click',()=>delElement(index));
-}
-);
+
+
+// cart.forEach((item,index)=>
+// {document.getElementById(`deleteButton_${index}`).addEventListener('click',()=>delElement(index));
+// }
+// );
 
 function displaycart() {
+    let total=0;
     
    
-    let total=0;
-    document.getElementById("count").innerHTML=cart.length;
+    document.getElementById("count").innerHTML=totalquantity;
     if(cart.length==0){
         document.getElementById('cartItem').innerHTML = "Your cart is empty";
         document.getElementById("total").innerHTML = "$ "+0+".00";
@@ -64,17 +116,24 @@ function displaycart() {
         
         document.getElementById("cartItem").innerHTML = cart.map((items,j)=>
 
-        {    console.log("j:",j);
-            var {image, title, price} = items;
-            total=total+price;
+        {    
+            var {image, title, price,amount} = items;
+
+            let totalPrice=price*amount;
+            //change 2
+           // total=total+price;
+           total=total+totalPrice;
+
+
             document.getElementById("total").innerHTML = "$ "+total+".00";
             return(
                 `<div class='cart-item'>
                 <div class='row-img'>
                     <img class='rowimg' src=${image}>
                 </div>
-                <p style='font-size:12px;'>${title}</p>
+                <p style='font-size:12px;'>${title} <span>${amount}</span></p>
                 <h2 style='font-size: 15px;'>$ ${price}.00</h2>
+                
                 <button class="dltButton" id='deleteButton_${j}'>dlt</button>
                 
                 </div>`
@@ -82,6 +141,12 @@ function displaycart() {
                 );
             
         }).join('');
+        cart.forEach((item,index)=>
+{document.getElementById(`deleteButton_${index}`).addEventListener('click',()=>delElement(index));
+}
+);
+
+
     }
 
     
