@@ -7,7 +7,7 @@ const uniqueFruits = [
 
 
 const modifiedFruitList=uniqueFruits.map((fruit)=>{
-    return{...fruit,amount:0}
+    return{...fruit,amount:0,roughcount:10}
 
 });
 
@@ -18,7 +18,10 @@ var totalquantity=0;
 
 
 //the below var will increase the amount in modlist,if addtocart is pressed this default value will be restored
-var modVar=1;
+
+
+
+displayCart();
 
 
 
@@ -26,11 +29,11 @@ var modVar=1;
 function displayCart(){
     
 myfruits.innerHTML = modifiedFruitList.map((item, i) => {
-    console.log("inside myfruits function the value of modVar:",modVar)
-  var { image, title, price } = item;
+   
+  var { image, title, price,roughcount } = item;
   return (
       `<div class='box'>
-      <div class="adjust-button" id="plus-mod${i}"><button class="oper-button">+</button><span class="adjust-amount">${modVar}</span><button class="oper-button" id="minus-mod${i}">-</button></div>
+      <div class="adjust-button"  ><button id="plus-mod${i}" class="oper-button">+</button><span class="adjust-amount">${roughcount}</span><button class="oper-button" id="minus-mod${i}">-</button></div>
           <div class='img-box'>
               <img class='images' src=${image}></img>
           </div>
@@ -44,15 +47,29 @@ myfruits.innerHTML = modifiedFruitList.map((item, i) => {
 }).join('');
 
 }
-displayCart();
+
 
 var cart = [];
 
-function plusMod(){
-    console.log("modVar pressed,modVar:",modVar)
-modVar++;
+function plusMod(indexofFruit_mod){
 
 
+    
+var rof=modifiedFruitList[indexofFruit_mod].roughcount++;
+console.log("index of the fruit:",indexofFruit_mod);
+console.log("roughcount of this fruit :",rof);
+displayCart();
+
+
+
+}
+
+
+
+function minusMod(indexOfFruit_mode)
+{
+    modifiedFruitList[indexOfFruit_mode].roughcount--;
+    displayCart();
 
 }
 
@@ -116,7 +133,9 @@ function delElement(a) {
 
 modifiedFruitList.forEach((item,index) => {
     document.getElementById(`addToCartBtn_${index}`).addEventListener('click', () => addtocart(index));
-    document.getElementById(`plus-mod${index}`).addEventListener('click',()=>plusMod());
+    document.getElementById(`plus-mod${index}`).addEventListener('click',()=>plusMod(index));
+    document.getElementById(`minus-mod${index}`).addEventListener('click',()=>minusMod(index));
+
 });
 
 
