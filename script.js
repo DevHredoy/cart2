@@ -13,27 +13,49 @@ const modifiedFruitList=uniqueFruits.map((fruit)=>{
 
 const myfruits = document.querySelector("#body-contents");
 
-
+// the below variable will show the amount in cart
 var totalquantity=0;
 
-myfruits.innerHTML = modifiedFruitList.map((item, i) => {
 
-    var { image, title, price } = item;
-    return (
-        `<div class='box'>
-            <div class='img-box'>
-                <img class='images' src=${image}></img>
-            </div>
-            <div class='bottom'>
-                <p>${title}</p>
-                <h2>$ ${price}.00</h2>
-                <button id='addToCartBtn_${i}'>Add to cart</button>
-            </div>
-        </div>`
-    );
+//the below var will increase the amount in modlist,if addtocart is pressed this default value will be restored
+var modVar=1;
+
+
+
+
+function displayCart(){
+    
+myfruits.innerHTML = modifiedFruitList.map((item, i) => {
+    console.log("inside myfruits function the value of modVar:",modVar)
+  var { image, title, price } = item;
+  return (
+      `<div class='box'>
+      <div class="adjust-button" id="plus-mod${i}"><button class="oper-button">+</button><span class="adjust-amount">${modVar}</span><button class="oper-button" id="minus-mod${i}">-</button></div>
+          <div class='img-box'>
+              <img class='images' src=${image}></img>
+          </div>
+          <div class='bottom'>
+              <p>${title}</p>
+              <h2>$ ${price}.00</h2>
+              <button id='addToCartBtn_${i}'>Add to cart</button>
+          </div>
+      </div>`
+  );
 }).join('');
 
+}
+displayCart();
+
 var cart = [];
+
+function plusMod(){
+    console.log("modVar pressed,modVar:",modVar)
+modVar++;
+
+
+
+}
+
 
 function addtocart(index) {
     var  idOfFruit=index;
@@ -44,7 +66,7 @@ function addtocart(index) {
         
         cart.push({ ...modifiedFruitList[index] });
        
-        displaycart();
+        displaySidebarcart();
         console.log("addtoC pressed,first element:")
 
     }
@@ -62,7 +84,7 @@ function addtocart(index) {
             }
             
             });
-        displaycart();
+        displaySidebarcart();
        
    
     }
@@ -84,7 +106,7 @@ function delElement(a) {
 
     console.log("fruit:",modifiedFruitList[sourceId].title,"amount is:",modifiedFruitList[sourceId].amount)
     cart.splice(a, 1);
-    displaycart();
+    displaySidebarcart();
     //console.log("delete button pressed");
     
 
@@ -94,6 +116,7 @@ function delElement(a) {
 
 modifiedFruitList.forEach((item,index) => {
     document.getElementById(`addToCartBtn_${index}`).addEventListener('click', () => addtocart(index));
+    document.getElementById(`plus-mod${index}`).addEventListener('click',()=>plusMod());
 });
 
 
@@ -102,8 +125,8 @@ modifiedFruitList.forEach((item,index) => {
 // {document.getElementById(`deleteButton_${index}`).addEventListener('click',()=>delElement(index));
 // }
 // );
-
-function displaycart() {
+ 
+function displaySidebarcart() {
     let total=0;
     
    
