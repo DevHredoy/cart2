@@ -45,7 +45,7 @@ function displayCart() {
 var cart = [];
 
 function plusMod(indexofFruit_mod) {
-  let rof = ++modifiedFruitList[indexofFruit_mod].roughcount;
+  let rof = modifiedFruitList[indexofFruit_mod].roughcount++;
   console.log("index of the fruit:", indexofFruit_mod);
   console.log("roughcount of this fruit :", rof);
   let idOfDisplayOfBtn = "rough-count" + indexofFruit_mod;
@@ -58,6 +58,7 @@ function minusMod(indexOfFruit_mode) {
   displayCart();
 }
 
+//belw id:cart ,idforAmSide not handled properly
 function addtocart(index) {
   var idOfFruit = index;
   if (
@@ -65,46 +66,50 @@ function addtocart(index) {
     modifiedFruitList[index].roughcount == 0
   ) {
     modifiedFruitList[index].amount++;
+    console.log(
+      "modifiedFruitList[index].amount :",
+      modifiedFruitList[index].amount
+    );
     totalquantity++;
 
     cart.push({ ...modifiedFruitList[index] });
 
     displaySidebarcart();
-    console.log("addtoC pressed,first element:");
-  }
-  if (
-    modifiedFruitList[index].amount > 1 &&
-    modifiedFruitList[index].roughcount == 0
-  ) {
-    //this is the condition when fruit is already present in cart,amount>1
+    document.getElementById("count").innerText = totalquantity;
+    let generateIdForfruitobjInCart = "amount-side_" + cart[length - 1];
+    document.getElementById(generateIdForfruitobjInCart).innerText =
+      modifiedFruitList[index].amount;
+
+    // modifiedFruitList[index].amount
+
+    console.log(
+      "amount in modifiedfruitList:",
+      modifiedFruitList[index].amount
+    );
+  } else {
     cart.forEach((value, i) => {
-      console.log("value:", value);
-      var { id } = value;
-      if (id == idOfFruit) {
-        cart[i].amount++;
+      var { id, amount } = value;
+      if (idOfFruit == id) {
+        amount++;
         totalquantity++;
-        console.log("total:", total);
-        //console.log("cart[i].amount:",cart[i].amount);
+        let idforAmSide = "amount-side_" + i;
+        console.log(
+          "we are dealing with the fruit in the cart which has the index:",
+          idforAmSide
+        );
+
+        //amountIncart is :to get the value of amount for that fruit in amount
+        let amountIncart = amount;
+
+        console.log("amountIncart:", amountIncart);
+        document.getElementById(idforAmSide).innerText = amountIncart;
+        document.getElementById("count").innerText = totalquantity;
+        console.log("cart.amount:", amount);
       }
     });
-    displaySidebarcart();
+
   }
 
-  if (
-    modifiedFruitList[index].amount > 1 &&
-    modifiedFruitList[index].roughcount > 0
-  ) {
-    cart.forEach((value, i) => {
-      var { id, roughcount } = value;
-      if (id == idOfFruit) {
-        cart[i].amount = cart[i].amount + 1 + roughcount;
-        console.log("cart.amount:", cart[i].amount);
-        modifiedFruitList[index].roughcount = 0;
-        totalquantity++;
-      }
-    });
-    displaySidebarcart();
-  }
 }
 
 function delElement(a) {
