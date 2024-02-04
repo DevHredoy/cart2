@@ -4,6 +4,10 @@ box-sizing:border-box;
 font-family:"poppins",sans-serif;
 font-size:18px;
 }
+
+
+
+
 body{
 display:flex;
 flex-direction:column;
@@ -39,6 +43,12 @@ background-color: rgb(226, 208, 185);
     padding: 7px 10px;
     border-radius: 3px;
     width: 80px;
+}
+
+.adjust-amount{
+color: chocolate;
+font-weight: bold;
+
 }
 
 .cart p{
@@ -168,6 +178,13 @@ button{
 button:hover{
     background-color: #333;
 }
+
+.adjust-button{
+display:flex;
+justify-content:space-between;
+
+
+}
 .cart-item{
     display: flex;
     align-items: center;
@@ -196,3 +213,11 @@ button:hover{
     cursor: pointer;
     color: #333;
 }
+
+.oper-button{
+    /* the width can't be adjusted decreasing the value below */
+width: 0.1px;
+height:22px;
+font-size:11px;
+
+}   
