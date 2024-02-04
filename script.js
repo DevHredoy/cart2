@@ -45,48 +45,11 @@ function displayCart() {
 var cart = [];
 
 function plusMod(indexofFruit_mod) {
-  let rof = ++modifiedFruitList[indexofFruit_mod].roughcount;
-  console.log("index of the fruit:", indexofFruit_mod);
-  console.log("roughcount of this fruit :", rof);
-  let idOfDisplayOfBtn = "rough-count" + indexofFruit_mod;
-  console.log("idOfDisplayOfBtn:", idOfDisplayOfBtn);
-  document.getElementById(idOfDisplayOfBtn).innerText = rof;
-}
+  let tempidd = "addToCartBtn_" + indexofFruit_mod;
 
-function minusMod(indexofFruit_mod) {
-  let rof = --modifiedFruitList[indexofFruit_mod].roughcount;
-  console.log("index of the fruit:", indexofFruit_mod);
-  console.log("roughcount of this fruit :", rof);
-  let idOfDisplayOfBtn = "rough-count" + indexofFruit_mod;
-  console.log("idOfDisplayOfBtn:", idOfDisplayOfBtn);
-  document.getElementById(idOfDisplayOfBtn).innerText = rof;
-}
-
-//belw id:cart ,idforAmSide not handled properly
-function addtocart(index) {
-  var idOfFruit = index;
-  if (modifiedFruitList[index].amount == 0) {
-    modifiedFruitList[index].amount++;
-    console.log(
-      "modifiedFruitList[index].amount :",
-      modifiedFruitList[index].amount
-    );
-    totalquantity++;
-
-    cart.push({ ...modifiedFruitList[index] });
-
-    displaySidebarcart();
-    document.getElementById("count").innerText = totalquantity;
-
-    // modifiedFruitList[index].amount
-
-    console.log(
-      "amount in modifiedfruitList:",
-      modifiedFruitList[index].amount
-    );
-  } else {
+  if (document.getElementById(tempidd).disabled) {
     cart.forEach((value, i) => {
-      if (idOfFruit == value.id) {
+      if (indexofFruit_mod == value.id) {
         value.amount++;
         totalquantity++;
         let idforAmSide = "amount-side_" + i;
@@ -104,6 +67,124 @@ function addtocart(index) {
         console.log("cart.amount:", value.amount);
       }
     });
+  }
+  //else tells if the fruit is not already in the cart
+  else {
+    let rof = ++modifiedFruitList[indexofFruit_mod].roughcount;
+    // console.log("index of the fruit:", indexofFruit_mod);
+    // console.log("roughcount of this fruit :", rof);
+    let idOfDisplayOfBtn = "rough-count" + indexofFruit_mod;
+    // console.log("idOfDisplayOfBtn:", idOfDisplayOfBtn);
+    document.getElementById(idOfDisplayOfBtn).innerText = rof;
+  }
+}
+
+function minusMod(indexofFruit_mod) {
+  let rof = --modifiedFruitList[indexofFruit_mod].roughcount;
+  console.log("index of the fruit:", indexofFruit_mod);
+  console.log("roughcount of this fruit :", rof);
+  let idOfDisplayOfBtn = "rough-count" + indexofFruit_mod;
+  console.log("idOfDisplayOfBtn:", idOfDisplayOfBtn);
+  document.getElementById(idOfDisplayOfBtn).innerText = rof;
+}
+
+//belw id:cart ,idforAmSide not handled properly
+function addtocart(index) {
+  var idOfFruit = index;
+  if (modifiedFruitList[index].amount == 0) {
+    if (modifiedFruitList[index].roughcount == 0) {
+      modifiedFruitList[index].amount++;
+      console.log(
+        "modifiedFruitList[index].amount :",
+        modifiedFruitList[index].amount
+      );
+      totalquantity++;
+
+      cart.push({ ...modifiedFruitList[index] });
+
+      displaySidebarcart();
+      document.getElementById("count").innerText = totalquantity;
+
+      // modifiedFruitList[index].amount
+
+      console.log(
+        "amount in modifiedfruitList:",
+        modifiedFruitList[index].amount
+      );
+
+      let tempid = "addToCartBtn_" + index;
+      document.getElementById(tempid).disabled = true;
+      document.getElementById(tempid).style.display = "none";
+    } else {
+      modifiedFruitList[index].amount = modifiedFruitList[index].roughcount;
+
+      console.log(
+        "modifiedFruitList[index].amount :",
+        modifiedFruitList[index].amount
+      );
+      totalquantity = totalquantity + modifiedFruitList[index].roughcount;
+
+      cart.push({ ...modifiedFruitList[index] });
+
+      displaySidebarcart();
+      modifiedFruitList[index].roughcount = 0;
+      let tempid = "rough-count" + index;
+      document.getElementById(tempid).innerText = 0;
+
+      document.getElementById("count").innerText = totalquantity;
+
+      // modifiedFruitList[index].amount
+
+      console.log(
+        "amount in modifiedfruitList:",
+        modifiedFruitList[index].amount
+      );
+      let tempdaddy = "addToCartBtn_" + index;
+      document.getElementById(tempdaddy).disabled = true;
+      document.getElementById(tempdaddy).style.display = "none";
+    }
+  } else {
+    if (modifiedFruitList[index].roughcount == 0) {
+      cart.forEach((value, i) => {
+        if (idOfFruit == value.id) {
+          value.amount++;
+          totalquantity++;
+          let idforAmSide = "amount-side_" + i;
+          console.log(
+            "we are dealing with the fruit in the cart which has the index:",
+            idforAmSide
+          );
+
+          //amountIncart is :to get the value of amount for that fruit in amount
+          let amountIncart = value.amount;
+
+          console.log("amountIncart:", amountIncart);
+          document.getElementById(idforAmSide).innerText = amountIncart;
+          document.getElementById("count").innerText = totalquantity;
+          console.log("cart.amount:", value.amount);
+        }
+      });
+    } else {
+      cart.forEach((value, i) => {
+        if (idOfFruit == value.id) {
+          value.amount++;
+          totalquantity++;
+          let idforAmSide = "amount-side_" + i;
+          console.log(
+            "we are dealing with the fruit in the cart which has the index:",
+            idforAmSide
+          );
+
+          //amountIncart is :to get the value of amount for that fruit in amount
+          let amountIncart = value.amount;
+
+          console.log("amountIncart:", amountIncart);
+          document.getElementById(idforAmSide).innerText = amountIncart;
+          document.getElementById("count").innerText = totalquantity;
+          console.log("cart.amount:", value.amount);
+        }
+      });
+    }
   }
 }
 
@@ -124,6 +205,12 @@ function delElement(a) {
     "amount is:",
     modifiedFruitList[sourceId].amount
   );
+  let realId = cart[a].id;
+  realId = "addToCartBtn_" + realId;
+  //--------------
+  document.getElementById(realId).disabled = false;
+  document.getElementById(realId).style.display = "block";
+
   cart.splice(a, 1);
   displaySidebarcart();
   //console.log("delete button pressed");
