@@ -45,7 +45,7 @@ function displayCart() {
 var cart = [];
 
 function plusMod(indexofFruit_mod) {
-  let rof = modifiedFruitList[indexofFruit_mod].roughcount++;
+  let rof = ++modifiedFruitList[indexofFruit_mod].roughcount;
   console.log("index of the fruit:", indexofFruit_mod);
   console.log("roughcount of this fruit :", rof);
   let idOfDisplayOfBtn = "rough-count" + indexofFruit_mod;
@@ -53,18 +53,19 @@ function plusMod(indexofFruit_mod) {
   document.getElementById(idOfDisplayOfBtn).innerText = rof;
 }
 
-function minusMod(indexOfFruit_mode) {
-  modifiedFruitList[indexOfFruit_mode].roughcount--;
-  displayCart();
+function minusMod(indexofFruit_mod) {
+  let rof = --modifiedFruitList[indexofFruit_mod].roughcount;
+  console.log("index of the fruit:", indexofFruit_mod);
+  console.log("roughcount of this fruit :", rof);
+  let idOfDisplayOfBtn = "rough-count" + indexofFruit_mod;
+  console.log("idOfDisplayOfBtn:", idOfDisplayOfBtn);
+  document.getElementById(idOfDisplayOfBtn).innerText = rof;
 }
 
 //belw id:cart ,idforAmSide not handled properly
 function addtocart(index) {
   var idOfFruit = index;
-  if (
-    modifiedFruitList[index].amount == 0 &&
-    modifiedFruitList[index].roughcount == 0
-  ) {
+  if (modifiedFruitList[index].amount == 0) {
     modifiedFruitList[index].amount++;
     console.log(
       "modifiedFruitList[index].amount :",
@@ -76,9 +77,6 @@ function addtocart(index) {
 
     displaySidebarcart();
     document.getElementById("count").innerText = totalquantity;
-    let generateIdForfruitobjInCart = "amount-side_" + cart[length - 1];
-    document.getElementById(generateIdForfruitobjInCart).innerText =
-      modifiedFruitList[index].amount;
 
     // modifiedFruitList[index].amount
 
@@ -88,9 +86,8 @@ function addtocart(index) {
     );
   } else {
     cart.forEach((value, i) => {
-      var { id, amount } = value;
-      if (idOfFruit == id) {
-        amount++;
+      if (idOfFruit == value.id) {
+        value.amount++;
         totalquantity++;
         let idforAmSide = "amount-side_" + i;
         console.log(
@@ -99,17 +96,15 @@ function addtocart(index) {
         );
 
         //amountIncart is :to get the value of amount for that fruit in amount
-        let amountIncart = amount;
+        let amountIncart = value.amount;
 
         console.log("amountIncart:", amountIncart);
         document.getElementById(idforAmSide).innerText = amountIncart;
         document.getElementById("count").innerText = totalquantity;
-        console.log("cart.amount:", amount);
+        console.log("cart.amount:", value.amount);
       }
     });
-
   }
-
 }
 
 function delElement(a) {
