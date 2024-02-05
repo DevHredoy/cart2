@@ -16,10 +16,7 @@ const modifiedFruitList = uniqueFruits.map((fruit) => {
 
 const myfruits = document.querySelector("#body-contents");
 
-// the below variable will show the amount in cart
 var totalquantity = 0;
-
-//the below var will increase the amount in modlist,if addtocart is pressed this default value will be restored
 
 displayCart();
 
@@ -72,17 +69,29 @@ function plusMod(indexofFruit_mod) {
   //else tells if the fruit is not already in the cart
   else {
     let rof = ++modifiedFruitList[indexofFruit_mod].roughcount;
-    // console.log("index of the fruit:", indexofFruit_mod);
-    // console.log("roughcount of this fruit :", rof);
+
     let idOfDisplayOfBtn = "rough-count" + indexofFruit_mod;
-    // console.log("idOfDisplayOfBtn:", idOfDisplayOfBtn);
+
     document.getElementById(idOfDisplayOfBtn).innerText = rof;
     displaySidebarcart();
   }
 }
-
+//-------------------
 function minusMod(indexofFruit_mod) {
   if (modifiedFruitList[indexofFruit_mod].roughcount <= 0) {
+    cart.forEach((value, index) => {
+      if (value.id == indexofFruit_mod) {
+        console.log("value:", value);
+        if (value.amount >= 1) {
+          value.amount--;
+          totalquantity--;
+          let tempid = "rough-count" + indexofFruit_mod;
+          document.getElementById(tempid).innerText = 0;
+          console.log("id:", tempid);
+          displaySidebarcart();
+        }
+      }
+    });
   } else {
     let rof = --modifiedFruitList[indexofFruit_mod].roughcount;
     console.log("index of the fruit:", indexofFruit_mod);
@@ -258,11 +267,6 @@ modifiedFruitList.forEach((item, index) => {
     .getElementById(`minus-mod${index}`)
     .addEventListener("click", () => minusMod(index));
 });
-
-// cart.forEach((item,index)=>
-// {document.getElementById(`deleteButton_${index}`).addEventListener('click',()=>delElement(index));
-// }
-// );
 
 function displaySidebarcart() {
   let total = 0;
