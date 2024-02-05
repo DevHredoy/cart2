@@ -65,6 +65,7 @@ function plusMod(indexofFruit_mod) {
         document.getElementById(idforAmSide).innerText = amountIncart;
         document.getElementById("count").innerText = totalquantity;
         console.log("cart.amount:", value.amount);
+        displaySidebarcart();
       }
     });
   }
@@ -76,16 +77,21 @@ function plusMod(indexofFruit_mod) {
     let idOfDisplayOfBtn = "rough-count" + indexofFruit_mod;
     // console.log("idOfDisplayOfBtn:", idOfDisplayOfBtn);
     document.getElementById(idOfDisplayOfBtn).innerText = rof;
+    displaySidebarcart();
   }
 }
 
 function minusMod(indexofFruit_mod) {
-  let rof = --modifiedFruitList[indexofFruit_mod].roughcount;
-  console.log("index of the fruit:", indexofFruit_mod);
-  console.log("roughcount of this fruit :", rof);
-  let idOfDisplayOfBtn = "rough-count" + indexofFruit_mod;
-  console.log("idOfDisplayOfBtn:", idOfDisplayOfBtn);
-  document.getElementById(idOfDisplayOfBtn).innerText = rof;
+  if (modifiedFruitList[indexofFruit_mod].roughcount <= 0) {
+  } else {
+    let rof = --modifiedFruitList[indexofFruit_mod].roughcount;
+    console.log("index of the fruit:", indexofFruit_mod);
+    console.log("roughcount of this fruit :", rof);
+    let idOfDisplayOfBtn = "rough-count" + indexofFruit_mod;
+    console.log("idOfDisplayOfBtn:", idOfDisplayOfBtn);
+    document.getElementById(idOfDisplayOfBtn).innerText = rof;
+    displaySidebarcart();
+  }
 }
 
 //belw id:cart ,idforAmSide not handled properly
@@ -216,6 +222,31 @@ function delElement(a) {
   //console.log("delete button pressed");
 }
 
+//plus in right
+
+function incrsAmm(i) {
+  cart[i].amount++;
+  totalquantity++;
+
+  let tempId = "amount-side_" + i;
+  document.getElementById(tempId).innerText = cart[i].amount;
+  document.getElementById("count").innerText = totalquantity;
+  displaySidebarcart();
+}
+
+function decrsAmm(i) {
+  if (cart[i].amount <= 0) {
+  } else {
+    cart[i].amount--;
+    totalquantity--;
+
+    let tempId = "amount-side_" + i;
+    document.getElementById(tempId).innerText = cart[i].amount;
+    document.getElementById("count").innerText = totalquantity;
+    displaySidebarcart();
+  }
+}
+
 modifiedFruitList.forEach((item, index) => {
   document
     .getElementById(`addToCartBtn_${index}`)
@@ -246,6 +277,7 @@ function displaySidebarcart() {
         var { image, title, price, amount } = items;
 
         let totalPrice = price * amount;
+
         //change 2
         // total=total+price;
         total = total + totalPrice;
@@ -255,10 +287,12 @@ function displaySidebarcart() {
                 <div class='row-img'>
                     <img class='rowimg' src=${image}>
                 </div>
-                <p style='font-size:12px;'>${title} <span id="amount-side_${j}">${amount}</span></p>
-                <h2 style='font-size: 15px;'>$ ${price}.00</h2>
+               <div class="title_right small-div">${title}</div>
+                <div class="right_adjust small-div"> <button class="oper-button" id="plus_rightBtn_${j}">+</button><span class="right_amount" id="amount-side_${j}">${amount}</span><button class="oper-button" id="minus_rightBtn_${j}">-</button>
+                </div>
+                <div class="price-right small-div"><h2 class="each-price_right">$ ${price}.00</h2></div>
                 
-                <button class="dltButton" id='deleteButton_${j}'>dlt</button>
+               <div class="dlt-button small-div"> <button class="dltButton" id='deleteButton_${j}'>dlt</button></div>
                 
                 </div>`;
       })
@@ -267,6 +301,14 @@ function displaySidebarcart() {
       document
         .getElementById(`deleteButton_${index}`)
         .addEventListener("click", () => delElement(index));
+
+      document
+        .getElementById(`plus_rightBtn_${index}`)
+        .addEventListener("click", () => incrsAmm(index));
+
+      document
+        .getElementById(`minus_rightBtn_${index}`)
+        .addEventListener("click", () => decrsAmm(index));
     });
   }
 }
