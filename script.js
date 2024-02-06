@@ -81,34 +81,54 @@ function plusMod(indexofFruit_mod) {
     displaySidebarcart();
   }
 }
-//-------------------
+
+//----------------------------- minus left button
+
 function minusMod(indexofFruit_mod) {
-  if (modifiedFruitList[indexofFruit_mod].roughcount <= 0) {
-    cart.forEach((value, index) => {
+  let tempidd = "addToCartBtn_" + indexofFruit_mod;
+
+  // if addto button is disabled
+  if (document.getElementById(tempidd).disabled) {
+    cart.forEach((value, i) => {
       if (value.id == indexofFruit_mod) {
-        console.log("value:", value);
-        if (value.amount >= 1) {
+        //if amount is greater than 0
+        if (value.amount > 0) {
           value.amount--;
           totalquantity--;
-          let tempid = "rough-count" + indexofFruit_mod;
-          document.getElementById(tempid).innerText = 0;
-          console.log("id:", tempid);
+          //change in left
+          let tempidforleft = "rough-count" + indexofFruit_mod;
+          document.getElementById(tempidforleft).innerText = value.amount;
+
+          //change in right
+
+          let tmpidforright = "amount-side_" + i;
+          document.getElementById(tmpidforright).innerText = value.amount;
+
+          //change in totalquantity
+          document.getElementById("count").innerText = totalquantity;
           displaySidebarcart();
+        }
+        //if amount is 0 or smaller
+        else {
+          // change view view will be "0"
         }
       }
     });
-  } else {
-    let rof = --modifiedFruitList[indexofFruit_mod].roughcount;
-    console.log("index of the fruit:", indexofFruit_mod);
-    console.log("roughcount of this fruit :", rof);
-    let idOfDisplayOfBtn = "rough-count" + indexofFruit_mod;
-    console.log("idOfDisplayOfBtn:", idOfDisplayOfBtn);
-    document.getElementById(idOfDisplayOfBtn).innerText = rof;
-    displaySidebarcart();
+  }
+  // if cart is empty
+  else {
+    if (modifiedFruitList[indexofFruit_mod].roughcount > 0) {
+      let rof = --modifiedFruitList[indexofFruit_mod].roughcount;
+      console.log("index of the fruit:", indexofFruit_mod);
+      console.log("roughcount of this fruit :", rof);
+      let idOfroughDisplay = "rough-count" + indexofFruit_mod;
+      console.log("idOfDisplayOfBtn:", idOfroughDisplay);
+      document.getElementById(idOfroughDisplay).innerText = rof;
+      displaySidebarcart();
+    }
   }
 }
 
-//belw id:cart ,idforAmSide not handled properly
 function addtocart(index) {
   var idOfFruit = index;
   if (modifiedFruitList[index].amount == 0) {
@@ -124,6 +144,10 @@ function addtocart(index) {
 
       displaySidebarcart();
       document.getElementById("count").innerText = totalquantity;
+
+      let roughDisplayid = "rough-count" + index;
+      document.getElementById(roughDisplayid).innerText =
+        modifiedFruitList[index].amount;
 
       // modifiedFruitList[index].amount
 
@@ -160,9 +184,9 @@ function addtocart(index) {
         "amount in modifiedfruitList:",
         modifiedFruitList[index].amount
       );
-      let tempdaddy = "addToCartBtn_" + index;
-      document.getElementById(tempdaddy).disabled = true;
-      document.getElementById(tempdaddy).style.display = "none";
+      let tempidd_ = "addToCartBtn_" + index;
+      document.getElementById(tempidd_).disabled = true;
+      document.getElementById(tempidd_).style.display = "none";
     }
   } else {
     if (modifiedFruitList[index].roughcount == 0) {
@@ -215,8 +239,6 @@ function delElement(a) {
   console.log("tobeLess:", cart[a].amount);
   totalquantity = totalquantity - tobeless;
 
-  //also updating amount of this fruit in modified list
-
   let sourceId = cart[a].id;
   modifiedFruitList[sourceId].amount = 0;
 
@@ -228,16 +250,13 @@ function delElement(a) {
   );
   let realId = cart[a].id;
   realId = "addToCartBtn_" + realId;
-  //--------------
+
   document.getElementById(realId).disabled = false;
   document.getElementById(realId).style.display = "block";
 
   cart.splice(a, 1);
   displaySidebarcart();
-  //console.log("delete button pressed");
 }
-
-//plus in right
 
 function incrsAmm(i) {
   cart[i].amount++;
