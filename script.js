@@ -11,7 +11,7 @@ const uniqueFruits = [
 ];
 
 const modifiedFruitList = uniqueFruits.map((fruit) => {
-  return { ...fruit, amount: 0, roughcount: 0 };
+  return { ...fruit, amount: 0, roughcount: 1 };
 });
 
 const myfruits = document.querySelector("#body-contents");
@@ -25,7 +25,7 @@ function displayCart() {
     .map((item, i) => {
       var { image, title, price } = item;
       return `<div class='box'>
-      <div class="adjust-button"  ><button id="plus-mod${i}" class="oper-button">+</button><span class="adjust-amount" id="rough-count${i}">0</span><button class="oper-button" id="minus-mod${i}">-</button></div>
+      <div class="adjust-button"  ><button id="plus-mod${i}" class="oper-button">+</button><span class="adjust-amount" id="rough-count${i}">1</span><button class="oper-button" id="minus-mod${i}">-</button></div>
           <div class='img-box'>
               <img class='images' src=${image}></img>
           </div>
@@ -49,19 +49,24 @@ function plusMod(indexofFruit_mod) {
       if (indexofFruit_mod == value.id) {
         value.amount++;
         totalquantity++;
-        let idforAmSide = "amount-side_" + i;
-        console.log(
-          "we are dealing with the fruit in the cart which has the index:",
-          idforAmSide
-        );
+
+        let idForLeft = "rough-count" + indexofFruit_mod;
+
+        document.getElementById(idForLeft).innerText = value.amount;
+
+        let idforAmRight = "amount-side_" + i;
+        // console.log(
+        //   "we are dealing with the fruit in the cart which has the index:",
+        //   idforAmSide
+        // );
 
         //amountIncart is :to get the value of amount for that fruit in amount
         let amountIncart = value.amount;
 
-        console.log("amountIncart:", amountIncart);
-        document.getElementById(idforAmSide).innerText = amountIncart;
+        // console.log("amountIncart:", amountIncart);
+        document.getElementById(idforAmRight).innerText = amountIncart;
         document.getElementById("count").innerText = totalquantity;
-        console.log("cart.amount:", value.amount);
+        // console.log("cart.amount:", value.amount);
         displaySidebarcart();
       }
     });
@@ -144,7 +149,8 @@ function addtocart(index) {
       displaySidebarcart();
       modifiedFruitList[index].roughcount = 0;
       let tempid = "rough-count" + index;
-      document.getElementById(tempid).innerText = 0;
+      document.getElementById(tempid).innerText =
+        modifiedFruitList[index].amount;
 
       document.getElementById("count").innerText = totalquantity;
 
@@ -242,7 +248,7 @@ function incrsAmm(i) {
   document.getElementById("count").innerText = totalquantity;
   displaySidebarcart();
 }
-
+//minus in right
 function decrsAmm(i) {
   if (cart[i].amount <= 0) {
   } else {
