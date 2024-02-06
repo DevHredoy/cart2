@@ -92,7 +92,7 @@ function minusMod(indexofFruit_mod) {
     cart.forEach((value, i) => {
       if (value.id == indexofFruit_mod) {
         //if amount is greater than 0
-        if (value.amount > 0) {
+        if (value.amount > 1) {
           value.amount--;
           totalquantity--;
           //change in left
@@ -109,15 +109,12 @@ function minusMod(indexofFruit_mod) {
           displaySidebarcart();
         }
         //if amount is 0 or smaller
-        else {
-          // change view view will be "0"
-        }
       }
     });
   }
   // if cart is empty
   else {
-    if (modifiedFruitList[indexofFruit_mod].roughcount > 0) {
+    if (modifiedFruitList[indexofFruit_mod].roughcount > 1) {
       let rof = --modifiedFruitList[indexofFruit_mod].roughcount;
       console.log("index of the fruit:", indexofFruit_mod);
       console.log("roughcount of this fruit :", rof);
@@ -264,19 +261,38 @@ function incrsAmm(i) {
 
   let tempId = "amount-side_" + i;
   document.getElementById(tempId).innerText = cart[i].amount;
+
+  modifiedFruitList.forEach((value, j) => {
+    if (cart[i].id == value.id) {
+      let idforAmSide = "rough-count" + value.id;
+
+      document.getElementById(idforAmSide).innerText = cart[i].amount;
+    }
+  });
+
   document.getElementById("count").innerText = totalquantity;
   displaySidebarcart();
 }
 //minus in right
 function decrsAmm(i) {
-  if (cart[i].amount <= 0) {
-  } else {
+  if (cart[i].amount > 1) {
     cart[i].amount--;
     totalquantity--;
+    //finding that in left cart
+    modifiedFruitList.forEach((value, j) => {
+      if (cart[i].id == value.id) {
+        let idforAmSide = "rough-count" + value.id;
+
+        document.getElementById(idforAmSide).innerText = cart[i].amount;
+      }
+    });
+
+    //---------------
 
     let tempId = "amount-side_" + i;
     document.getElementById(tempId).innerText = cart[i].amount;
-    document.getElementById("count").innerText = totalquantity;
+
+    let temppId = (document.getElementById("count").innerText = totalquantity);
     displaySidebarcart();
   }
 }
