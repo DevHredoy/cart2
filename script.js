@@ -1,29 +1,48 @@
-const uniqueFruits = [
-  { id: 0, image: "basket/grape.jpg", title: "grape fruit", price: 34 },
+const modifiedFruitList = [
+  {
+    id: 0,
+    image: "basket/grape.jpg",
+    title: "grape fruit",
+    price: 34,
+    amount: 0,
+    roughCount: 1,
+  },
   {
     id: 1,
     image: "basket/Bubblegum.jpeg",
     title: "bubblegum fruit",
     price: 23,
+    amount: 0,
+    roughcount: 1,
   },
-  { id: 2, image: "basket/lichu.jpg", title: "Lichi", price: 11 },
-  { id: 3, image: "basket/Loquat.jpg", title: "Loquat", price: 23 },
+  {
+    id: 2,
+    image: "basket/lichu.jpg",
+    title: "Lichi",
+    price: 11,
+    amount: 0,
+    roughcount: 1,
+  },
+  {
+    id: 3,
+    image: "basket/Loquat.jpg",
+    title: "Loquat",
+    price: 23,
+    amount: 0,
+    roughcount: 1,
+  },
 ];
-
-const modifiedFruitList = uniqueFruits.map((fruit) => {
-  return { ...fruit, amount: 0, roughcount: 1 };
-});
 
 const myfruits = document.querySelector("#body-contents");
 
-var totalquantity = 0;
+let totalQuantity = 0;
 
 displayCart();
 
 function displayCart() {
   myfruits.innerHTML = modifiedFruitList
     .map((item, i) => {
-      var { image, title, price } = item;
+      let { image, title, price } = item;
       return `<div class='box'>
       <div class="adjust-button"  ><button id="plus-mod${i}" class="oper-button">+</button><span class="adjust-amount" id="rough-count${i}">1</span><button class="oper-button" id="minus-mod${i}">-</button></div>
           <div class='img-box'>
@@ -39,74 +58,68 @@ function displayCart() {
     .join("");
 }
 
-var cart = [];
+let cart = [];
 
-function plusMod(indexofFruit_mod) {
-  let tempidd = "addToCartBtn_" + indexofFruit_mod;
+function plusMod(indexOfFrtOrig) {
+  let tempidd = "addToCartBtn_" + indexOfFrtOrig;
 
   if (document.getElementById(tempidd).disabled) {
     cart.forEach((value, i) => {
-      if (indexofFruit_mod == value.id) {
+      if (indexOfFrtOrig == value.id) {
         value.amount++;
-        totalquantity++;
+        totalQuantity++;
 
-        let idForLeft = "rough-count" + indexofFruit_mod;
+        let idForLeft = "rough-count" + indexOfFrtOrig;
 
         document.getElementById(idForLeft).innerText = value.amount;
 
         let idforAmRight = "amount-side_" + i;
-        // console.log(
-        //   "we are dealing with the fruit in the cart which has the index:",
-        //   idforAmSide
-        // );
 
-        //amountIncart is :to get the value of amount for that fruit in amount
-        let amountIncart = value.amount;
+        let amountInCart = value.amount;
 
-        // console.log("amountIncart:", amountIncart);
-        document.getElementById(idforAmRight).innerText = amountIncart;
-        document.getElementById("count").innerText = totalquantity;
-        // console.log("cart.amount:", value.amount);
-        displaySidebarcart();
+        document.getElementById(idforAmRight).innerText = amountInCart;
+        document.getElementById("count").innerText = totalQuantity;
+
+        displaySidebarCart();
       }
     });
   }
   //else tells if the fruit is not already in the cart
   else {
-    let rof = ++modifiedFruitList[indexofFruit_mod].roughcount;
+    let rof = ++modifiedFruitList[indexOfFrtOrig].roughCount;
 
-    let idOfDisplayOfBtn = "rough-count" + indexofFruit_mod;
+    let idCount = "rough-count" + indexOfFrtOrig;
 
-    document.getElementById(idOfDisplayOfBtn).innerText = rof;
-    displaySidebarcart();
+    document.getElementById(idCount).innerText = rof;
+    displaySidebarCart();
   }
 }
 
 //----------------------------- minus left button
 
-function minusMod(indexofFruit_mod) {
-  let tempidd = "addToCartBtn_" + indexofFruit_mod;
+function minusMod(indexOfFruitOrig) {
+  let tempIdd = "addToCartBtn_" + indexOfFruitOrig;
 
   // if addto button is disabled
-  if (document.getElementById(tempidd).disabled) {
+  if (document.getElementById(tempIdd).disabled) {
     cart.forEach((value, i) => {
-      if (value.id == indexofFruit_mod) {
+      if (value.id == indexOfFruitOrig) {
         //if amount is greater than 0
         if (value.amount > 1) {
           value.amount--;
-          totalquantity--;
+          totalQuantity--;
           //change in left
-          let tempidforleft = "rough-count" + indexofFruit_mod;
-          document.getElementById(tempidforleft).innerText = value.amount;
+          let tempIdForLeft = "rough-count" + indexOfFruitOrig;
+          document.getElementById(tempIdForLeft).innerText = value.amount;
 
           //change in right
 
-          let tmpidforright = "amount-side_" + i;
-          document.getElementById(tmpidforright).innerText = value.amount;
+          let tmpIdForRight = "amount-side_" + i;
+          document.getElementById(tmpIdForRight).innerText = value.amount;
 
           //change in totalquantity
-          document.getElementById("count").innerText = totalquantity;
-          displaySidebarcart();
+          document.getElementById("count").innerText = totalQuantity;
+          displaySidebarCart();
         }
         //if amount is 0 or smaller
       }
@@ -114,33 +127,29 @@ function minusMod(indexofFruit_mod) {
   }
   // if cart is empty
   else {
-    if (modifiedFruitList[indexofFruit_mod].roughcount > 1) {
-      let rof = --modifiedFruitList[indexofFruit_mod].roughcount;
-      console.log("index of the fruit:", indexofFruit_mod);
-      console.log("roughcount of this fruit :", rof);
-      let idOfroughDisplay = "rough-count" + indexofFruit_mod;
-      console.log("idOfDisplayOfBtn:", idOfroughDisplay);
+    if (modifiedFruitList[indexOfFruitOrig].roughCount > 1) {
+      let rof = --modifiedFruitList[indexOfFruitOrig].roughCount;
+
+      let idOfroughDisplay = "rough-count" + indexOfFruitOrig;
+
       document.getElementById(idOfroughDisplay).innerText = rof;
-      displaySidebarcart();
+      displaySidebarCart();
     }
   }
 }
 
-function addtocart(index) {
-  var idOfFruit = index;
+function addToCart(index) {
+  let idOfFruit = index;
   if (modifiedFruitList[index].amount == 0) {
-    if (modifiedFruitList[index].roughcount == 0) {
+    if (modifiedFruitList[index].roughCount == 0) {
       modifiedFruitList[index].amount++;
-      console.log(
-        "modifiedFruitList[index].amount :",
-        modifiedFruitList[index].amount
-      );
-      totalquantity++;
+
+      totalQuantity++;
 
       cart.push({ ...modifiedFruitList[index] });
 
-      displaySidebarcart();
-      document.getElementById("count").innerText = totalquantity;
+      displaySidebarCart();
+      document.getElementById("count").innerText = totalQuantity;
 
       let roughDisplayid = "rough-count" + index;
       document.getElementById(roughDisplayid).innerText =
@@ -148,32 +157,23 @@ function addtocart(index) {
 
       // modifiedFruitList[index].amount
 
-      console.log(
-        "amount in modifiedfruitList:",
-        modifiedFruitList[index].amount
-      );
-
-      let tempid = "addToCartBtn_" + index;
-      document.getElementById(tempid).disabled = true;
-      document.getElementById(tempid).style.display = "none";
+      let tempId = "addToCartBtn_" + index;
+      document.getElementById(tempId).disabled = true;
+      document.getElementById(tempId).style.display = "none";
     } else {
-      modifiedFruitList[index].amount = modifiedFruitList[index].roughcount;
+      modifiedFruitList[index].amount = modifiedFruitList[index].roughCount;
 
-      console.log(
-        "modifiedFruitList[index].amount :",
-        modifiedFruitList[index].amount
-      );
-      totalquantity = totalquantity + modifiedFruitList[index].roughcount;
+      totalQuantity = totalQuantity + modifiedFruitList[index].roughCount;
 
       cart.push({ ...modifiedFruitList[index] });
 
-      displaySidebarcart();
-      modifiedFruitList[index].roughcount = 0;
+      displaySidebarCart();
+      modifiedFruitList[index].roughCount = 0;
       let tempid = "rough-count" + index;
       document.getElementById(tempid).innerText =
         modifiedFruitList[index].amount;
 
-      document.getElementById("count").innerText = totalquantity;
+      document.getElementById("count").innerText = totalQuantity;
 
       // modifiedFruitList[index].amount
 
@@ -181,49 +181,36 @@ function addtocart(index) {
         "amount in modifiedfruitList:",
         modifiedFruitList[index].amount
       );
-      let tempidd_ = "addToCartBtn_" + index;
-      document.getElementById(tempidd_).disabled = true;
-      document.getElementById(tempidd_).style.display = "none";
+      let tempIdd_ = "addToCartBtn_" + index;
+      document.getElementById(tempIdd_).disabled = true;
+      document.getElementById(tempIdd_).style.display = "none";
     }
   } else {
-    if (modifiedFruitList[index].roughcount == 0) {
+    if (modifiedFruitList[index].roughCount == 0) {
       cart.forEach((value, i) => {
         if (idOfFruit == value.id) {
           value.amount++;
-          totalquantity++;
+          totalQuantity++;
           let idforAmSide = "amount-side_" + i;
-          console.log(
-            "we are dealing with the fruit in the cart which has the index:",
-            idforAmSide
-          );
-
           //amountIncart is :to get the value of amount for that fruit in amount
           let amountIncart = value.amount;
 
-          console.log("amountIncart:", amountIncart);
           document.getElementById(idforAmSide).innerText = amountIncart;
-          document.getElementById("count").innerText = totalquantity;
-          console.log("cart.amount:", value.amount);
+          document.getElementById("count").innerText = totalQuantity;
         }
       });
     } else {
       cart.forEach((value, i) => {
         if (idOfFruit == value.id) {
           value.amount++;
-          totalquantity++;
+          totalQuantity++;
           let idforAmSide = "amount-side_" + i;
-          console.log(
-            "we are dealing with the fruit in the cart which has the index:",
-            idforAmSide
-          );
 
           //amountIncart is :to get the value of amount for that fruit in amount
           let amountIncart = value.amount;
 
-          console.log("amountIncart:", amountIncart);
           document.getElementById(idforAmSide).innerText = amountIncart;
-          document.getElementById("count").innerText = totalquantity;
-          console.log("cart.amount:", value.amount);
+          document.getElementById("count").innerText = totalQuantity;
         }
       });
     }
@@ -232,9 +219,9 @@ function addtocart(index) {
 
 function delElement(a) {
   console.log("cart to be deleted:", cart[a]);
-  let tobeless = cart[a].amount;
+  let toBeLess = cart[a].amount;
   console.log("tobeLess:", cart[a].amount);
-  totalquantity = totalquantity - tobeless;
+  totalQuantity = totalQuantity - toBeLess;
 
   let sourceId = cart[a].id;
   modifiedFruitList[sourceId].amount = 0;
@@ -252,12 +239,12 @@ function delElement(a) {
   document.getElementById(realId).style.display = "block";
 
   cart.splice(a, 1);
-  displaySidebarcart();
+  displaySidebarCart();
 }
 
-function incrsAmm(i) {
+function incrsAmInRight(i) {
   cart[i].amount++;
-  totalquantity++;
+  totalQuantity++;
 
   let tempId = "amount-side_" + i;
   document.getElementById(tempId).innerText = cart[i].amount;
@@ -270,14 +257,14 @@ function incrsAmm(i) {
     }
   });
 
-  document.getElementById("count").innerText = totalquantity;
-  displaySidebarcart();
+  document.getElementById("count").innerText = totalQuantity;
+  displaySidebarCart();
 }
 //minus in right
-function decrsAmm(i) {
+function decrsAmInRight(i) {
   if (cart[i].amount > 1) {
     cart[i].amount--;
-    totalquantity--;
+    totalQuantity--;
     //finding that in left cart
     modifiedFruitList.forEach((value, j) => {
       if (cart[i].id == value.id) {
@@ -292,15 +279,15 @@ function decrsAmm(i) {
     let tempId = "amount-side_" + i;
     document.getElementById(tempId).innerText = cart[i].amount;
 
-    let temppId = (document.getElementById("count").innerText = totalquantity);
-    displaySidebarcart();
+    let temppId = (document.getElementById("count").innerText = totalQuantity);
+    displaySidebarCart();
   }
 }
 
 modifiedFruitList.forEach((item, index) => {
   document
     .getElementById(`addToCartBtn_${index}`)
-    .addEventListener("click", () => addtocart(index));
+    .addEventListener("click", () => addToCart(index));
   document
     .getElementById(`plus-mod${index}`)
     .addEventListener("click", () => plusMod(index));
@@ -309,17 +296,17 @@ modifiedFruitList.forEach((item, index) => {
     .addEventListener("click", () => minusMod(index));
 });
 
-function displaySidebarcart() {
+function displaySidebarCart() {
   let total = 0;
 
-  document.getElementById("count").innerHTML = totalquantity;
+  document.getElementById("count").innerHTML = totalQuantity;
   if (cart.length == 0) {
     document.getElementById("cartItem").innerHTML = "Your cart is empty";
     document.getElementById("total").innerHTML = "$ " + 0 + ".00";
   } else {
     document.getElementById("cartItem").innerHTML = cart
       .map((items, j) => {
-        var { image, title, price, amount } = items;
+        let { image, title, price, amount } = items;
 
         let totalPrice = price * amount;
 
@@ -349,11 +336,11 @@ function displaySidebarcart() {
 
       document
         .getElementById(`plus_rightBtn_${index}`)
-        .addEventListener("click", () => incrsAmm(index));
+        .addEventListener("click", () => incrsAmInRight(index));
 
       document
         .getElementById(`minus_rightBtn_${index}`)
-        .addEventListener("click", () => decrsAmm(index));
+        .addEventListener("click", () => decrsAmInRight(index));
     });
   }
 }
