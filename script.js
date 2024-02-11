@@ -5,7 +5,7 @@ const modifiedFruitList = [
     title: "grape fruit",
     price: 34,
     amount: 0,
-    roughCount: 1,
+    roughCount: 0,
   },
   {
     id: 1,
@@ -13,7 +13,7 @@ const modifiedFruitList = [
     title: "bubblegum fruit",
     price: 23,
     amount: 0,
-    roughcount: 1,
+    roughCount: 0,
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const modifiedFruitList = [
     title: "Lichi",
     price: 11,
     amount: 0,
-    roughcount: 1,
+    roughCount: 0,
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ const modifiedFruitList = [
     title: "Loquat",
     price: 23,
     amount: 0,
-    roughcount: 1,
+    roughCount: 0,
   },
 ];
 
@@ -43,6 +43,7 @@ function displayCart() {
   myfruits.innerHTML = modifiedFruitList
     .map((item, i) => {
       let { image, title, price } = item;
+      console.log("rough count", item.roughCount);
       return `<div class='box'>
       <div class="adjust-button"  ><button id="plus-mod${i}" class="oper-button">+</button><span class="adjust-amount" id="rough-count${i}">1</span><button class="oper-button" id="minus-mod${i}">-</button></div>
           <div class='img-box'>
@@ -147,6 +148,8 @@ function addToCart(index) {
       totalQuantity++;
 
       cart.push({ ...modifiedFruitList[index] });
+      console.log("modified fruit quantity:", modifiedFruitList[index].amount);
+      console.log("total quantity:", totalQuantity);
 
       displaySidebarCart();
       document.getElementById("count").innerText = totalQuantity;
@@ -180,6 +183,10 @@ function addToCart(index) {
       console.log(
         "amount in modifiedfruitList:",
         modifiedFruitList[index].amount
+      );
+      console.log(
+        "rough count of this fruit is :",
+        modifiedFruitList[index].rough
       );
       let tempIdd_ = "addToCartBtn_" + index;
       document.getElementById(tempIdd_).disabled = true;
