@@ -43,7 +43,7 @@ function displayCart() {
   myfruits.innerHTML = modifiedFruitList
     .map((item, i) => {
       let { image, title, price } = item;
-      console.log("rough count", item.roughCount);
+    
       return `<div class='box'>
       <div class="adjust-button"  ><button id="plus-mod${i}" class="oper-button">+</button><span class="adjust-amount" id="rough-count${i}">1</span><button class="oper-button" id="minus-mod${i}">-</button></div>
           <div class='img-box'>
@@ -327,7 +327,8 @@ function displaySidebarCart() {
                     <img class='rowimg' src=${image}>
                 </div>
                <div class="title_right small-div">${title}</div>
-                <div class="right_adjust small-div"> <button class="oper-button" id="plus_rightBtn_${j}">+</button><span class="right_amount" id="amount-side_${j}">${amount}</span><button class="oper-button" id="minus_rightBtn_${j}">-</button>
+                <div
+                 class="right_adjust small-div"> <button class="oper-button" id="plus_rightBtn_${j}">+</button><span class="right_amount" id="amount-side_${j}">${amount}</span><button class="oper-button" id="minus_rightBtn_${j}">-</button>
                 </div>
                 <div class="price-right small-div"><h2 class="each-price_right">$ ${price}.00</h2></div>
                 
