@@ -43,7 +43,7 @@ function displayCart() {
   myfruits.innerHTML = modifiedFruitList
     .map((item, i) => {
       let { image, title, price } = item;
-    
+
       return `<div class='box'>
       <div class="adjust-button"  ><button id="plus-mod${i}" class="oper-button">+</button><span class="adjust-amount" id="rough-count${i}">1</span><button class="oper-button" id="minus-mod${i}">-</button></div>
           <div class='img-box'>
@@ -94,6 +94,11 @@ function plusMod(indexOfFrtOrig) {
     document.getElementById(idCount).innerText = rof;
     displaySidebarCart();
   }
+
+  //lS
+
+  // local set
+  localStorage.setItem("UpListFrt", JSON.stringify(modifiedFruitList));
 }
 
 //----------------------------- minus left button
@@ -137,6 +142,8 @@ function minusMod(indexOfFruitOrig) {
       displaySidebarCart();
     }
   }
+  // local storage, set
+  localStorage.setItem("UpListFrt", JSON.stringify(modifiedFruitList));
 }
 
 function addToCart(index) {
