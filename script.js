@@ -45,7 +45,11 @@ function displayCart() {
       let { image, title, price } = item;
 
       return `<div class='box'>
-      <div class="adjust-button"  ><button id="plus-mod${i}" class="oper-button">+</button><span class="adjust-amount" id="rough-count${i}">1</span><button class="oper-button" id="minus-mod${i}">-</button></div>
+      <div class="adjust-button"  ><button id="plus-mod${i}" class="oper-button">+</button><span class="adjust-amount" id="rough-count${i}"> ${
+        (JSON.parse(localStorage.getItem("UpListFrt")) ?? []).find(
+          (item) => item?.id === i
+        )?.roughCount || "1"
+      }</span><button class="oper-button" id="minus-mod${i}">-</button></div>
           <div class='img-box'>
               <img class='images' src=${image}></img>
           </div>
@@ -63,7 +67,7 @@ let cart = [];
 
 function plusMod(indexOfFrtOrig) {
   let tempidd = "addToCartBtn_" + indexOfFrtOrig;
-
+  //if the product is on the cart already
   if (document.getElementById(tempidd).disabled) {
     cart.forEach((value, i) => {
       if (indexOfFrtOrig == value.id) {
@@ -82,23 +86,72 @@ function plusMod(indexOfFrtOrig) {
         document.getElementById("count").innerText = totalQuantity;
 
         displaySidebarCart();
+        //lS
+
+        // local set
+        localStorage.setItem(
+          "UpListFrt",
+          JSON.stringify(
+            JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
+              item.id === indexOfFrtOrig
+                ? { ...item, roughCount: item.roughCount + 1 }
+                : item
+            )
+          )
+        );
       }
     });
   }
   //else tells if the fruit is not already in the cart
+  // ----------------------------------------------------------------------------------------------------------------
   else {
-    let rof = ++modifiedFruitList[indexOfFrtOrig].roughCount;
+    //lS
+    // if "UpListFrt" has any previous stored value
+    if (
+      localStorage.getItem("UpListFrt") &&
+      localStorage.getItem("UpListFrt").length > 0
+    ) {
+      // from the storage item we have increased from the previous amount then inner html
+      localStorage.setItem(
+        "UpListFrt",
+        JSON.stringify(
+          JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
+            item.id === indexOfFrtOrig
+              ? { ...item, roughCount: item.roughCount + 1 }
+              : item
+          )
+        )
+      );
+      const updatedData = JSON.parse(localStorage.getItem("UpListFrt"));
 
-    let idCount = "rough-count" + indexOfFrtOrig;
+      // Find the item with the specified id
+      const updatedItem = updatedData.find(
+        (item) => item.id === indexOfFrtOrig
+      );
 
-    document.getElementById(idCount).innerText = rof;
-    displaySidebarCart();
+      // Check if the item was found
+      if (updatedItem) {
+        // Access the updated roughCount
+        const updatedRoughCount = updatedItem.roughCount;
+        let idCount = "rough-count" + indexOfFrtOrig;
+
+        document.getElementById(idCount).innerText = updatedRoughCount;
+        console.log("Updated roughCount:", updatedRoughCount);
+      } else {
+        console.log("Item not found");
+      }
+
+      displaySidebarCart();
+    } else {
+      let rof = ++modifiedFruitList[indexOfFrtOrig].roughCount;
+
+      let idCount = "rough-count" + indexOfFrtOrig;
+
+      document.getElementById(idCount).innerText = rof;
+      localStorage.setItem("UpListFrt", JSON.stringify(modifiedFruitList));
+      displaySidebarCart();
+    }
   }
-
-  //lS
-
-  // local set
-  localStorage.setItem("UpListFrt", JSON.stringify(modifiedFruitList));
 }
 
 //----------------------------- minus left button
@@ -155,8 +208,6 @@ function addToCart(index) {
       totalQuantity++;
 
       cart.push({ ...modifiedFruitList[index] });
-      console.log("modified fruit quantity:", modifiedFruitList[index].amount);
-      console.log("total quantity:", totalQuantity);
 
       displaySidebarCart();
       document.getElementById("count").innerText = totalQuantity;
