@@ -122,6 +122,7 @@ function plusMod(indexOfFrtOrig) {
           )
         )
       );
+      console.log("rough count is:");
       const updatedData = JSON.parse(localStorage.getItem("UpListFrt"));
 
       // Find the item with the specified id
@@ -186,17 +187,44 @@ function minusMod(indexOfFruitOrig) {
   }
   // if cart is empty
   else {
-    if (modifiedFruitList[indexOfFruitOrig].roughCount > 1) {
-      let rof = --modifiedFruitList[indexOfFruitOrig].roughCount;
+    const updatedData = JSON.parse(localStorage.getItem("UpListFrt"));
 
-      let idOfroughDisplay = "rough-count" + indexOfFruitOrig;
+    const updatedItem = updatedData.find(
+      (item) => item.id === indexOfFruitOrig
+    );
+    const updatedRoughCount = updatedItem.roughCount;
+    if (updatedRoughCount > 1) {
+      localStorage.setItem(
+        "UpListFrt",
+        JSON.stringify(
+          JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
+            item.id === indexOfFruitOrig
+              ? { ...item, roughCount: item.roughCount - 1 }
+              : item
+          )
+        )
+      );
+      const updatedData = JSON.parse(localStorage.getItem("UpListFrt"));
 
-      document.getElementById(idOfroughDisplay).innerText = rof;
+      // Find the item with the specified id
+      const updatedItem = updatedData.find(
+        (item) => item.id === indexOfFruitOrig
+      );
+
+      // Check if the item was found
+      if (updatedItem) {
+        // Access the updated roughCount
+        const updatedRoughCount = updatedItem.roughCount;
+        let idCount = "rough-count" + indexOfFruitOrig;
+
+        document.getElementById(idCount).innerText = updatedRoughCount;
+      } else {
+        console.log("Item not found");
+      }
+
       displaySidebarCart();
     }
   }
-  // local storage, set
-  localStorage.setItem("UpListFrt", JSON.stringify(modifiedFruitList));
 }
 
 function addToCart(index) {
