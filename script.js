@@ -6,6 +6,7 @@ const modifiedFruitList = [
     price: 34,
     amount: 0,
     roughCount: 0,
+    btnVisible: false,
   },
   {
     id: 1,
@@ -14,6 +15,7 @@ const modifiedFruitList = [
     price: 23,
     amount: 0,
     roughCount: 0,
+    btnVisible: true,
   },
   {
     id: 2,
@@ -22,6 +24,7 @@ const modifiedFruitList = [
     price: 11,
     amount: 0,
     roughCount: 0,
+    btnVisible: true,
   },
   {
     id: 3,
@@ -30,6 +33,7 @@ const modifiedFruitList = [
     price: 23,
     amount: 0,
     roughCount: 0,
+    btnVisible: true,
   },
 ];
 
@@ -42,7 +46,7 @@ displayCart();
 function displayCart() {
   myfruits.innerHTML = modifiedFruitList
     .map((item, i) => {
-      let { image, title, price } = item;
+      let { image, title, price, btnVisible } = item;
 
       return `<div class='box'>
       <div class="adjust-button"  ><button id="plus-mod${i}" class="oper-button">+</button><span class="adjust-amount" id="rough-count${i}"> ${
@@ -56,7 +60,11 @@ function displayCart() {
           <div class='bottom'>
               <p>${title}</p>
               <h2>$ ${price}.00</h2>
-              <button id='addToCartBtn_${i}'>Add to cart</button>
+              ${
+                btnVisible
+                  ? `<button id='addToCartBtn_${i}'>Add to cart</button>`
+                  : `" "`
+              }
           </div>
       </div>`;
     })
