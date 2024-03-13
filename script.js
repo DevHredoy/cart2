@@ -6,7 +6,7 @@ const modifiedFruitList = [
     price: 34,
     amount: 0,
     roughCount: 0,
-    btnVisible: false,
+    btnVisible: true,
   },
   {
     id: 1,
@@ -60,11 +60,11 @@ function displayCart() {
           <div class='bottom'>
               <p>${title}</p>
               <h2>$ ${price}.00</h2>
-              ${
-                btnVisible
-                  ? `<button id="addToCartBtn_${i}">Add to cart</button>`
-                  : `<button disabled id="addToCartBtn_${i}">Add to cart</button>`
-              }
+
+              
+              <button id="addToCartBtn_${i}" style="${
+        btnVisible ? "" : "display:none;"
+      }">Add to cart</button>
           </div>
       </div>`;
     })
@@ -237,84 +237,18 @@ function minusMod(indexOfFruitOrig) {
 
 function addToCart(index) {
   let idOfFruit = index;
+  localStorage.setItem(
+    "UpListFrt",
+    JSON.stringify(
+      JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
+        item.id === idOfFruit ? { ...item, btnVisible: false } : item
+      )
+    )
+  );
+  displayCart();
+
   if (modifiedFruitList[index].amount == 0) {
-    if (modifiedFruitList[index].roughCount == 0) {
-      modifiedFruitList[index].amount++;
-
-      totalQuantity++;
-
-      cart.push({ ...modifiedFruitList[index] });
-
-      displaySidebarCart();
-      document.getElementById("count").innerText = totalQuantity;
-
-      let roughDisplayid = "rough-count" + index;
-      document.getElementById(roughDisplayid).innerText =
-        modifiedFruitList[index].amount;
-
-      // modifiedFruitList[index].amount
-
-      let tempId = "addToCartBtn_" + index;
-      document.getElementById(tempId).disabled = true;
-      document.getElementById(tempId).style.display = "none";
-    } else {
-      modifiedFruitList[index].amount = modifiedFruitList[index].roughCount;
-
-      totalQuantity = totalQuantity + modifiedFruitList[index].roughCount;
-
-      cart.push({ ...modifiedFruitList[index] });
-
-      displaySidebarCart();
-      modifiedFruitList[index].roughCount = 0;
-      let tempid = "rough-count" + index;
-      document.getElementById(tempid).innerText =
-        modifiedFruitList[index].amount;
-
-      document.getElementById("count").innerText = totalQuantity;
-
-      // modifiedFruitList[index].amount
-
-      console.log(
-        "amount in modifiedfruitList:",
-        modifiedFruitList[index].amount
-      );
-      console.log(
-        "rough count of this fruit is :",
-        modifiedFruitList[index].rough
-      );
-      let tempIdd_ = "addToCartBtn_" + index;
-      document.getElementById(tempIdd_).disabled = true;
-      document.getElementById(tempIdd_).style.display = "none";
-    }
   } else {
-    if (modifiedFruitList[index].roughCount == 0) {
-      cart.forEach((value, i) => {
-        if (idOfFruit == value.id) {
-          value.amount++;
-          totalQuantity++;
-          let idforAmSide = "amount-side_" + i;
-          //amountIncart is :to get the value of amount for that fruit in amount
-          let amountIncart = value.amount;
-
-          document.getElementById(idforAmSide).innerText = amountIncart;
-          document.getElementById("count").innerText = totalQuantity;
-        }
-      });
-    } else {
-      cart.forEach((value, i) => {
-        if (idOfFruit == value.id) {
-          value.amount++;
-          totalQuantity++;
-          let idforAmSide = "amount-side_" + i;
-
-          //amountIncart is :to get the value of amount for that fruit in amount
-          let amountIncart = value.amount;
-
-          document.getElementById(idforAmSide).innerText = amountIncart;
-          document.getElementById("count").innerText = totalQuantity;
-        }
-      });
-    }
   }
 }
 
