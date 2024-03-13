@@ -63,7 +63,7 @@ function displayCart() {
               ${
                 btnVisible
                   ? `<button id='addToCartBtn_${i}'>Add to cart</button>`
-                  : `" "`
+                  : ``
               }
           </div>
       </div>`;
