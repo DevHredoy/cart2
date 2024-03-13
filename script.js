@@ -62,8 +62,8 @@ function displayCart() {
               <h2>$ ${price}.00</h2>
               ${
                 btnVisible
-                  ? `<button id='addToCartBtn_${i}'>Add to cart</button>`
-                  : ``
+                  ? `<button id="addToCartBtn_${i}">Add to cart</button>`
+                  : `<button disabled id="addToCartBtn_${i}">Add to cart</button>`
               }
           </div>
       </div>`;
