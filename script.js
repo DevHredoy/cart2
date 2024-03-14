@@ -46,7 +46,7 @@ displayCart();
 function displayCart() {
   myfruits.innerHTML = modifiedFruitList
     .map((item, i) => {
-      let { image, title, price, btnVisible } = item;
+      let { image, title, price } = item;
 
       return `<div class='box'>
       <div class="adjust-button"  ><button id="plus-mod${i}" class="oper-button">+</button><span class="adjust-amount" id="rough-count${i}"> ${
@@ -63,8 +63,13 @@ function displayCart() {
 
               
               <button id="addToCartBtn_${i}" style="${
-        btnVisible ? "" : "display:none;"
-      }">Add to cart</button>
+        (JSON.parse(localStorage.getItem("UpListFrt")) ?? []).find(
+          (item) => item?.id === i
+        )?.btnVisible ?? modifiedFruitList[i]?.btnVisible
+          ? ""
+          : "display:none;"
+      }"
+              >Add to cart</button>
           </div>
       </div>`;
     })
@@ -237,16 +242,30 @@ function minusMod(indexOfFruitOrig) {
 
 function addToCart(index) {
   let idOfFruit = index;
-  localStorage.setItem(
-    "UpListFrt",
-    JSON.stringify(
-      JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
-        item.id === idOfFruit ? { ...item, btnVisible: false } : item
-      )
-    )
-  );
-  displayCart();
 
+  // this below part could be written in localstorage. format
+  let upListFrtData =
+    JSON.parse(localStorage.getItem("UpListFrt")) || modifiedFruitList;
+
+  // Check if the item with idOfFruit exists in upListFrtData
+  let existingItemIndex = upListFrtData.findIndex(
+    (item) => item.id === idOfFruit
+  );
+
+  if (existingItemIndex !== -1) {
+    // If the item exists, update its btnVisible
+    upListFrtData[existingItemIndex].btnVisible = false;
+  } else {
+    // If the item doesn't exist, create a new item
+    upListFrtData.push({ id: idOfFruit, btnVisible: false });
+  }
+
+  // Save the updated or new data back to localStorage
+  localStorage.setItem("UpListFrt", JSON.stringify(upListFrtData));
+  let tempidy = "addToCartBtn_" + index;
+  document.getElementById(tempidy).style.display = "none";
+
+  //-----------
   if (modifiedFruitList[index].amount == 0) {
   } else {
   }
