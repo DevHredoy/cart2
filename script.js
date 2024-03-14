@@ -265,7 +265,8 @@ function addToCart(index) {
   let tempidy = "addToCartBtn_" + index;
   document.getElementById(tempidy).style.display = "none";
 
-  //-----------
+  //-----------in js codeinput fix gpt chat the latest problem has been placed
+  //the below segment we have to change
   if (modifiedFruitList[index].amount == 0) {
   } else {
   }
