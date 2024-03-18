@@ -40,6 +40,7 @@ const modifiedFruitList = [
 const myfruits = document.querySelector("#body-contents");
 
 let totalQuantity = 0;
+displaySidebarCart();
 
 displayCart();
 
@@ -76,7 +77,7 @@ function displayCart() {
     .join("");
 }
 
-let cart = [];
+let cart = JSON.parse(localStorage.getItem("basket")) || [];
 
 function plusMod(indexOfFrtOrig) {
   let tempidd = "addToCartBtn_" + indexOfFrtOrig;
@@ -255,10 +256,11 @@ function addToCart(index) {
   if (existingItemIndex !== -1) {
     // If the item exists, update its btnVisible
     upListFrtData[existingItemIndex].btnVisible = false;
-  } else {
-    // If the item doesn't exist, create a new item
-    upListFrtData.push({ id: idOfFruit, btnVisible: false });
   }
+  // else {
+  //   // If the item doesn't exist, create a new item
+  //   upListFrtData.push({ id: idOfFruit, btnVisible: false });
+  // }
 
   // Save the updated or new data back to localStorage
   localStorage.setItem("UpListFrt", JSON.stringify(upListFrtData));
@@ -267,8 +269,24 @@ function addToCart(index) {
 
   //-----------in js codeinput fix gpt chat the latest problem has been placed
   //the below segment we have to change
-  if (modifiedFruitList[index].amount == 0) {
-  } else {
+  let prevUpListFrtData = JSON.parse(localStorage.getItem("UpListFrt")) || [];
+
+  // Check if the "amount" property of the item with index "index" is 0 or not
+  if (prevUpListFrtData[index]?.amount == 0) {
+    // Condition when the "amount" property is not 0
+    if (prevUpListFrtData[index]?.roughCount == 0) {
+      prevUpListFrtData[index].amount++;
+      //totalquantity++
+      cart.push({ ...prevUpListFrtData[index] });
+      displaySidebarCart();
+      //  localStorage.setItem("UpListFrt", JSON.stringify(modifiedFruitList));
+    } else {
+      prevUpListFrtData[index].amount = prevUpListFrtData[index].roughCount;
+      prevUpListFrtData[index].roughCount = 0;
+      cart.push({ ...prevUpListFrtData[index] });
+      displaySidebarCart();
+    }
+    localStorage.setItem("basket", JSON.stringify(cart));
   }
 }
 
@@ -298,19 +316,34 @@ function delElement(a) {
 }
 
 function incrsAmInRight(i) {
-  cart[i].amount++;
+  localStorage.setItem(
+    "basket",
+    JSON.stringify(
+      JSON.parse(localStorage.getItem("basket")).map((item) =>
+        item.id === i ? { ...item, amount: item.amount + 1 } : item
+      )
+    )
+  );
+
+  const updatedData = JSON.parse(localStorage.getItem("basket"));
+
+  const updatedItem = updatedData.find((item) => item.id === i);
+
+  const updatedAmount = updatedItem.amount;
+  let idCount = "amount-side_" + i;
+
+  document.getElementById(idCount).innerText = updatedAmount;
+
   totalQuantity++;
 
-  let tempId = "amount-side_" + i;
-  document.getElementById(tempId).innerText = cart[i].amount;
+  //this below is for updating left part
+  // modifiedFruitList.forEach((value, j) => {
+  //   if (cart[i].id == value.id) {
+  //     let idforAmSide = "rough-count" + value.id;
 
-  modifiedFruitList.forEach((value, j) => {
-    if (cart[i].id == value.id) {
-      let idforAmSide = "rough-count" + value.id;
-
-      document.getElementById(idforAmSide).innerText = cart[i].amount;
-    }
-  });
+  //     document.getElementById(idforAmSide).innerText = cart[i].amount;
+  //   }
+  // });
 
   document.getElementById("count").innerText = totalQuantity;
   displaySidebarCart();
@@ -354,22 +387,24 @@ modifiedFruitList.forEach((item, index) => {
 function displaySidebarCart() {
   let total = 0;
 
+  // Retrieve the cart data from local storage
+  let cartFromLocalStorage = JSON.parse(localStorage.getItem("basket")) || [];
+
   document.getElementById("count").innerHTML = totalQuantity;
-  if (cart.length == 0) {
+
+  if (cartFromLocalStorage.length == 0) {
     document.getElementById("cartItem").innerHTML = "Your cart is empty";
     document.getElementById("total").innerHTML = "$ " + 0 + ".00";
   } else {
-    document.getElementById("cartItem").innerHTML = cart
+    document.getElementById("cartItem").innerHTML = cartFromLocalStorage
       .map((items, j) => {
         let { image, title, price, amount } = items;
 
         let totalPrice = price * amount;
-
-        //change 2
-        // total=total+price;
         total = total + totalPrice;
 
         document.getElementById("total").innerHTML = "$ " + total + ".00";
+
         return `<div class='cart-item'>
                 <div class='row-img'>
                     <img class='rowimg' src=${image}>
@@ -385,18 +420,20 @@ function displaySidebarCart() {
                 </div>`;
       })
       .join("");
-    cart.forEach((item, index) => {
-      document
-        .getElementById(`deleteButton_${index}`)
-        .addEventListener("click", () => delElement(index));
-
-      document
-        .getElementById(`plus_rightBtn_${index}`)
-        .addEventListener("click", () => incrsAmInRight(index));
-
-      document
-        .getElementById(`minus_rightBtn_${index}`)
-        .addEventListener("click", () => decrsAmInRight(index));
-    });
   }
+}
+
+let cartFromLocalStorage = JSON.parse(localStorage.getItem("basket")) || [];
+if (cartFromLocalStorage.length > 0) {
+  cartFromLocalStorage.forEach((item, index) => {
+    document
+      .getElementById(`deleteButton_${index}`)
+      .addEventListener("click", () => delElement(index));
+    document
+      .getElementById(`plus_rightBtn_${index}`)
+      .addEventListener("click", () => incrsAmInRight(index));
+    document
+      .getElementById(`minus_rightBtn_${index}`)
+      .addEventListener("click", () => decrsAmInRight(index));
+  });
 }
