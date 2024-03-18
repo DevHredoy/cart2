@@ -43,7 +43,7 @@ function displayCart() {
   myfruits.innerHTML = modifiedFruitList
     .map((item, i) => {
       let { image, title, price } = item;
-    
+
       return `<div class='box'>
       <div class="adjust-button"  ><button id="plus-mod${i}" class="oper-button">+</button><span class="adjust-amount" id="rough-count${i}">1</span><button class="oper-button" id="minus-mod${i}">-</button></div>
           <div class='img-box'>
@@ -191,35 +191,6 @@ function addToCart(index) {
       let tempIdd_ = "addToCartBtn_" + index;
       document.getElementById(tempIdd_).disabled = true;
       document.getElementById(tempIdd_).style.display = "none";
-    }
-  } else {
-    if (modifiedFruitList[index].roughCount == 0) {
-      cart.forEach((value, i) => {
-        if (idOfFruit == value.id) {
-          value.amount++;
-          totalQuantity++;
-          let idforAmSide = "amount-side_" + i;
-          //amountIncart is :to get the value of amount for that fruit in amount
-          let amountIncart = value.amount;
-
-          document.getElementById(idforAmSide).innerText = amountIncart;
-          document.getElementById("count").innerText = totalQuantity;
-        }
-      });
-    } else {
-      cart.forEach((value, i) => {
-        if (idOfFruit == value.id) {
-          value.amount++;
-          totalQuantity++;
-          let idforAmSide = "amount-side_" + i;
-
-          //amountIncart is :to get the value of amount for that fruit in amount
-          let amountIncart = value.amount;
-
-          document.getElementById(idforAmSide).innerText = amountIncart;
-          document.getElementById("count").innerText = totalQuantity;
-        }
-      });
     }
   }
 }
