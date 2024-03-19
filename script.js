@@ -316,9 +316,8 @@ function delElement(a) {
   displaySidebarCart();
 }
 
-
-
 function incrsAmInRight(i) {
+  // local
   localStorage.setItem(
     "basket",
     JSON.stringify(
@@ -332,39 +331,75 @@ function incrsAmInRight(i) {
 
   // Check if the item with indexOfFrtOrig exists in upListFrtData
   let currentItem = tempBasket.find((item, index) => index === i);
-  console.log("item:", currentItem);
-  console.log("clicked");
 
   // let currentItem = cart.find((item, index) => index === i);
   let idCount = "amount-side_" + i;
 
   document.getElementById(idCount).innerText = currentItem.amount;
+
+  // for modifying in the left:
+  // modifiedFruitList.forEach((value, j) => {
+  //   if (cart[i].id == value.id) {
+  //     let idforAmSide = "rough-count" + value.id;
+
+  //     document.getElementById(idforAmSide).innerText = cart[i].amount;
+  //   }
+  // });
+
+  const sycWithLeftItm = JSON.parse(localStorage.getItem("UpListFrt"));
+
+  const updatedItem = sycWithLeftItm.find((item) => item.id === cart[i].id);
+
+  let tempId = updatedItem.id;
+
+  // shall check if it syns or not
+  let cartValue = currentItem.amount;
+  console.log("updated item's id:", tempId);
+  console.log("cart item's amount:", cartValue);
+
+  if (!updatedItem.btnVisible) {
+    console.log("btn is not visible");
+    localStorage.setItem(
+      "UpListFrt",
+      JSON.stringify(
+        JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
+          item.id === tempId ? { ...item, amount: cartValue } : item
+        )
+      )
+    );
+  }
+
+  let idforAmSide = "rough-count" + tempId;
+  document.getElementById(idforAmSide).innerText = cartValue;
+
   displaySidebarCart();
-
-
-
 }
 
 //minus in right
 function decrsAmInRight(i) {
-  if (cart[i].amount > 1) {
-    cart[i].amount--;
-    totalQuantity--;
-    //finding that in left cart
-    modifiedFruitList.forEach((value, j) => {
-      if (cart[i].id == value.id) {
-        let idforAmSide = "rough-count" + value.id;
+  let tempBasket = JSON.parse(localStorage.getItem("basket")) || [];
 
-        document.getElementById(idforAmSide).innerText = cart[i].amount;
-      }
-    });
+  // Check if the item with indexOfFrtOrig exists in upListFrtData
+  let currentItem = tempBasket.find((item, index) => index === i);
+  if (currentItem.amount > 0) {
+    localStorage.setItem(
+      "basket",
+      JSON.stringify(
+        JSON.parse(localStorage.getItem("basket")).map((item, index) =>
+          index === i ? { ...item, amount: item.amount - 1 } : item
+        )
+      )
+    );
 
-    //---------------
+    let tempBasket = JSON.parse(localStorage.getItem("basket")) || [];
 
-    let tempId = "amount-side_" + i;
-    document.getElementById(tempId).innerText = cart[i].amount;
+    // Check if the item with indexOfFrtOrig exists in upListFrtData
+    let currentItem = tempBasket.find((item, index) => index === i);
 
-    let temppId = (document.getElementById("count").innerText = totalQuantity);
+    // let currentItem = cart.find((item, index) => index === i);
+    let idCount = "amount-side_" + i;
+
+    document.getElementById(idCount).innerText = currentItem.amount;
     displaySidebarCart();
   }
 }
@@ -417,20 +452,19 @@ function displaySidebarCart() {
                 </div>`;
       })
       .join("");
+    cartFromLocalStorage = JSON.parse(localStorage.getItem("basket")) || [];
+    if (cartFromLocalStorage.length > 0) {
+      cartFromLocalStorage.forEach((item, index) => {
+        document
+          .getElementById(`deleteButton_${index}`)
+          .addEventListener("click", () => delElement(index));
+        document
+          .getElementById(`plus_rightBtn_${index}`)
+          .addEventListener("click", () => incrsAmInRight(index));
+        document
+          .getElementById(`minus_rightBtn_${index}`)
+          .addEventListener("click", () => decrsAmInRight(index));
+      });
+    }
   }
-}
-
-let cartFromLocalStorage = JSON.parse(localStorage.getItem("basket")) || [];
-if (cartFromLocalStorage.length > 0) {
-  cartFromLocalStorage.forEach((item, index) => {
-    document
-      .getElementById(`deleteButton_${index}`)
-      .addEventListener("click", () => delElement(index));
-    document
-      .getElementById(`plus_rightBtn_${index}`)
-      .addEventListener("click", () => incrsAmInRight(index));
-    document
-      .getElementById(`minus_rightBtn_${index}`)
-      .addEventListener("click", () => decrsAmInRight(index));
-  });
 }
