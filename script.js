@@ -278,15 +278,16 @@ function addToCart(index) {
       prevUpListFrtData[index].amount++;
       //totalquantity++
       cart.push({ ...prevUpListFrtData[index] });
-      displaySidebarCart();
+      //  displaySidebarCart();
       //  localStorage.setItem("UpListFrt", JSON.stringify(modifiedFruitList));
     } else {
       prevUpListFrtData[index].amount = prevUpListFrtData[index].roughCount;
       prevUpListFrtData[index].roughCount = 0;
       cart.push({ ...prevUpListFrtData[index] });
-      displaySidebarCart();
+      //displaySidebarCart();
     }
     localStorage.setItem("basket", JSON.stringify(cart));
+    displaySidebarCart();
   }
 }
 
@@ -315,39 +316,35 @@ function delElement(a) {
   displaySidebarCart();
 }
 
+
+
 function incrsAmInRight(i) {
   localStorage.setItem(
     "basket",
     JSON.stringify(
-      JSON.parse(localStorage.getItem("basket")).map((item) =>
-        item.id === i ? { ...item, amount: item.amount + 1 } : item
+      JSON.parse(localStorage.getItem("basket")).map((item, index) =>
+        index === i ? { ...item, amount: item.amount + 1 } : item
       )
     )
   );
 
-  const updatedData = JSON.parse(localStorage.getItem("basket"));
+  let tempBasket = JSON.parse(localStorage.getItem("basket")) || [];
 
-  const updatedItem = updatedData.find((item) => item.id === i);
+  // Check if the item with indexOfFrtOrig exists in upListFrtData
+  let currentItem = tempBasket.find((item, index) => index === i);
+  console.log("item:", currentItem);
+  console.log("clicked");
 
-  const updatedAmount = updatedItem.amount;
+  // let currentItem = cart.find((item, index) => index === i);
   let idCount = "amount-side_" + i;
 
-  document.getElementById(idCount).innerText = updatedAmount;
-
-  totalQuantity++;
-
-  //this below is for updating left part
-  // modifiedFruitList.forEach((value, j) => {
-  //   if (cart[i].id == value.id) {
-  //     let idforAmSide = "rough-count" + value.id;
-
-  //     document.getElementById(idforAmSide).innerText = cart[i].amount;
-  //   }
-  // });
-
-  document.getElementById("count").innerText = totalQuantity;
+  document.getElementById(idCount).innerText = currentItem.amount;
   displaySidebarCart();
+
+
+
 }
+
 //minus in right
 function decrsAmInRight(i) {
   if (cart[i].amount > 1) {
