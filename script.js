@@ -86,45 +86,8 @@ function displayCart() {
 let cart = JSON.parse(localStorage.getItem("basket")) || [];
 
 function plusMod(indexOfFrtOrig) {
-  let tempidd = "addToCartBtn_" + indexOfFrtOrig;
-  //if the product is on the cart already
-  if (document.getElementById(tempidd).disabled) {
-    cart.forEach((value, i) => {
-      if (indexOfFrtOrig == value.id) {
-        value.amount++;
-        totalQuantity++;
-
-        let idForLeft = "rough-count" + indexOfFrtOrig;
-
-        document.getElementById(idForLeft).innerText = value.amount;
-
-        let idforAmRight = "amount-side_" + i;
-
-        let amountInCart = value.amount;
-
-        document.getElementById(idforAmRight).innerText = amountInCart;
-        document.getElementById("count").innerText = totalQuantity;
-
-        displaySidebarCart();
-        //lS
-
-        // local set
-        localStorage.setItem(
-          "UpListFrt",
-          JSON.stringify(
-            JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
-              item.id === indexOfFrtOrig
-                ? { ...item, roughCount: item.roughCount + 1 }
-                : item
-            )
-          )
-        );
-      }
-    });
-  }
-  //else tells if the fruit is not already in the cart
-  // ----------------------------------------------------------------------------------------------------------------
-  else {
+  // this below segment will come insdie the next if's under and also the corresponding else
+  if (modifiedFruitList[indexOfFrtOrig].btnVisible == true) {
     //lS
     // if "UpListFrt" has any previous stored value
     if (
@@ -171,6 +134,60 @@ function plusMod(indexOfFrtOrig) {
       document.getElementById(idCount).innerText = rof;
       localStorage.setItem("UpListFrt", JSON.stringify(modifiedFruitList));
       displaySidebarCart();
+    }
+  } else {
+    if (currentItem.btnVisible == false) {
+      localStorage.setItem(
+        "basket",
+        JSON.stringify(
+          JSON.parse(localStorage.getItem("basket")).map((item, index) =>
+            item.id === indexOfFrtOrig
+              ? { ...item, amount: item.amount + 1 }
+              : item
+          )
+        )
+      );
+
+      console.log("hello");
+
+      //updating view of left
+
+      //updating view in right
+      let tempBasket = JSON.parse(localStorage.getItem("basket")) || [];
+
+      let currentItem;
+      let currentIndex;
+
+      // Inside your function
+      currentItem = tempBasket.find((item, index) => {
+        if (item.id === indexOfFrtOrig) {
+          currentIndex = index;
+          return true; // Stops iteration after finding the first matching item
+        }
+        return false;
+      });
+
+      console.log("item:", currentItem);
+      console.log("item amount:", currentItem.amount);
+
+      let idCount = "amount-side_" + currentIndex;
+      // let amnt = currentItem.amount;
+
+      document.getElementById(idCount).innerText = currentItem.amount;
+      displaySidebarCart();
+      //lS
+
+      // local set
+      // localStorage.setItem(
+      //   "UpListFrt",
+      //   JSON.stringify(
+      //     JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
+      //       item.id === indexOfFrtOrig
+      //         ? { ...item, roughCount: item.roughCount + 1 }
+      //         : item
+      //     )
+      //   )
+      // );
     }
   }
 }
