@@ -43,7 +43,7 @@ let totalQuantity = 0;
 displaySidebarCart();
 
 displayCart();
-
+let one = "1";
 function displayCart() {
   myfruits.innerHTML = modifiedFruitList
     .map((item, i) => {
@@ -53,7 +53,13 @@ function displayCart() {
       <div class="adjust-button"  ><button id="plus-mod${i}" class="oper-button">+</button><span class="adjust-amount" id="rough-count${i}"> ${
         (JSON.parse(localStorage.getItem("UpListFrt")) ?? []).find(
           (item) => item?.id === i
-        )?.roughCount || "1"
+        )?.btnVisible
+          ? (JSON.parse(localStorage.getItem("UpListFrt")) ?? []).find(
+              (item) => item?.id === i
+            )?.roughCount || 1 // Use 1 as the default value if roughCount is undefined
+          : (JSON.parse(localStorage.getItem("UpListFrt")) ?? []).find(
+              (item) => item?.id === i
+            )?.amount || 1
       }</span><button class="oper-button" id="minus-mod${i}">-</button></div>
           <div class='img-box'>
               <img class='images' src=${image}></img>
@@ -329,22 +335,11 @@ function incrsAmInRight(i) {
 
   let tempBasket = JSON.parse(localStorage.getItem("basket")) || [];
 
-  // Check if the item with indexOfFrtOrig exists in upListFrtData
   let currentItem = tempBasket.find((item, index) => index === i);
 
-  // let currentItem = cart.find((item, index) => index === i);
   let idCount = "amount-side_" + i;
 
   document.getElementById(idCount).innerText = currentItem.amount;
-
-  // for modifying in the left:
-  // modifiedFruitList.forEach((value, j) => {
-  //   if (cart[i].id == value.id) {
-  //     let idforAmSide = "rough-count" + value.id;
-
-  //     document.getElementById(idforAmSide).innerText = cart[i].amount;
-  //   }
-  // });
 
   const sycWithLeftItm = JSON.parse(localStorage.getItem("UpListFrt"));
 
@@ -381,7 +376,7 @@ function decrsAmInRight(i) {
 
   // Check if the item with indexOfFrtOrig exists in upListFrtData
   let currentItem = tempBasket.find((item, index) => index === i);
-  if (currentItem.amount > 0) {
+  if (currentItem.amount > 1) {
     localStorage.setItem(
       "basket",
       JSON.stringify(
@@ -400,6 +395,33 @@ function decrsAmInRight(i) {
     let idCount = "amount-side_" + i;
 
     document.getElementById(idCount).innerText = currentItem.amount;
+
+    const sycWithLeftItm = JSON.parse(localStorage.getItem("UpListFrt"));
+
+    const updatedItem = sycWithLeftItm.find((item) => item.id === cart[i].id);
+
+    let tempId = updatedItem.id;
+
+    // shall check if it syns or not
+    let cartValue = currentItem.amount;
+    console.log("updated item's id:", tempId);
+    console.log("cart item's amount:", cartValue);
+
+    if (!updatedItem.btnVisible) {
+      console.log("btn is not visible");
+      localStorage.setItem(
+        "UpListFrt",
+        JSON.stringify(
+          JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
+            item.id === tempId ? { ...item, amount: cartValue } : item
+          )
+        )
+      );
+    }
+
+    let idforAmSide = "rough-count" + tempId;
+    document.getElementById(idforAmSide).innerText = cartValue;
+
     displaySidebarCart();
   }
 }
