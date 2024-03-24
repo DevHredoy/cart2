@@ -150,15 +150,15 @@ function plusMod(indexOfFrtOrig) {
         let tempBasket = JSON.parse(localStorage.getItem("basket")) || [];
 
         let itemToSave = tempBasket.find((item) => item.id === indexOfFrtOrig);
-        let currentIndex=tempBasket.find((item,index)=>)
+        
 
         console.log("item to save:", itemToSave);
-
-        let idCount = "amount-side_" + currentIndex;
+//---------------------------------
+        let idCount = "amount-side_" + ?;
         // let amnt = currentItem.amount;
 
         document.getElementById(idCount).innerText = itemToSave.amount;
-        //--------------------------------
+        
         // in this part we have to increase the amount of the item from UpList
 
         //first time the roughcount will be added with the amount and then amount will be incremented
