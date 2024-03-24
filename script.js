@@ -98,11 +98,77 @@ function displayCart() {
 let cart = JSON.parse(localStorage.getItem("basket")) || [];
 
 function plusMod(indexOfFrtOrig) {
+  //if there is previous record from UpListFrt
   if (
     localStorage.getItem("UpListFrt") &&
     localStorage.getItem("UpListFrt").length > 0
   ) {
-  } else {
+    const updatedData = JSON.parse(localStorage.getItem("UpListFrt"));
+
+    const updatedItem = updatedData.find((item) => item.id == indexOfFrtOrig);
+
+    // UpListFrt :✔,button visible:✔,added in cart:❎;
+    if (updatedItem.btnVisible == true) {
+      //// UpListFrt :✔,button visible:✔,added in cart:❎,roughcount ==0;
+      if (updatedItem.roughCount == 0) {
+        localStorage.setItem(
+          "UpListFrt",
+          JSON.stringify(
+            JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
+              item.id === indexOfFrtOrig ? { ...item, roughCount: 1 } : item
+            )
+          )
+        );
+        const updatedRoughCount = updatedItem.roughCount;
+        let idCount = "rough-count" + indexOfFrtOrig;
+
+        document.getElementById(idCount).innerText = updatedRoughCount;
+      }
+
+      // UpListFrt :✔,button visible:✔,added in cart:❎,roughcount >0;
+      else {
+        // from the storage item we have increased from the previous amount then inner html
+        localStorage.setItem(
+          "UpListFrt",
+          JSON.stringify(
+            JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
+              item.id === indexOfFrtOrig
+                ? { ...item, roughCount: item.roughCount + 1 }
+                : item
+            )
+          )
+        );
+        console.log("rough count is:");
+        const updatedData = JSON.parse(localStorage.getItem("UpListFrt"));
+
+        // Find the item with the specified id
+        const updatedItem = updatedData.find(
+          (item) => item.id === indexOfFrtOrig
+        );
+
+        // Check if the item was found
+        if (updatedItem) {
+          // Access the updated roughCount
+          const updatedRoughCount = updatedItem.roughCount;
+          let idCount = "rough-count" + indexOfFrtOrig;
+
+          document.getElementById(idCount).innerText = updatedRoughCount;
+          console.log("Updated roughCount:", updatedRoughCount);
+        } else {
+          console.log("Item not found");
+        }
+
+        displaySidebarCart();
+      }
+    }
+
+    // // UpListFrt :✔,button visible:❎,added in cart:✔;
+    else {
+    }
+  }
+
+  // if there is no previous record of UpListFrt
+  else {
     let rof = modifiedFruitList[indexOfFrtOrig].roughCount + 1;
 
     console.log("rof in the item now is :", rof);
