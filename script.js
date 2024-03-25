@@ -98,7 +98,7 @@ function displayCart() {
 let cart = JSON.parse(localStorage.getItem("basket")) || [];
 
 function plusMod(indexOfFrtOrig) {
-  //if there is previous record from UpListFrt
+  // if there is previous record from UpListFrt
   if (
     localStorage.getItem("UpListFrt") &&
     localStorage.getItem("UpListFrt").length > 0
@@ -164,6 +164,46 @@ function plusMod(indexOfFrtOrig) {
 
     // // UpListFrt :✔,button visible:❎,added in cart:✔;
     else {
+      // code for the left side,code to update the amount in left side, 
+      localStorage.setItem(
+        "UpListFrt",
+        JSON.stringify(
+          JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
+            item.id === indexOfFrtOrig
+              ? { ...item, amount: item.amount + 1 }
+              : item
+          )
+        )
+      );
+
+      const updatedData = JSON.parse(localStorage.getItem("UpListFrt"));
+      const updatedItem=updatedData.find((item) => item.id === indexOfFrtOrig);
+            console.log("updated item:",updatedItem)
+      const updatedRoughCount = updatedItem.roughCount;
+      let idCount = "rough-count" + indexOfFrtOrig;
+
+      document.getElementById(idCount).innerText = updatedRoughCount;
+
+
+
+      // code for the right side , code to update the amount in right side, if indexOfFrtOrig matches with the id of the carts items,incremented
+      
+
+
+      localStorage.setItem(
+        "basket",
+        JSON.stringify(
+          JSON.parse(localStorage.getItem("basket")).map((item) =>
+            item.id === indexOfFrtOrig
+              ? { ...item, amount: item.amount + 1 }
+              : item
+          )
+        )
+      );
+
+      //-------------------------------------------
+
+
     }
   }
 
