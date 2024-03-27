@@ -119,10 +119,11 @@ function plusMod(indexOfFrtOrig) {
             )
           )
         );
-        const updatedRoughCount = updatedItem.roughCount;
+        //const updatedRoughCount = updatedItem.roughCount;
+        // console.log("rough88count:", updatedRoughCount);
         let idCount = "rough-count" + indexOfFrtOrig;
 
-        document.getElementById(idCount).innerText = updatedRoughCount;
+        document.getElementById(idCount).innerText = 1;
       }
 
       // UpListFrt :✔,button visible:✔,added in cart:❎,roughcount >0;
