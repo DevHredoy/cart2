@@ -443,28 +443,27 @@ function addToCart(index) {
 }
 
 function delElement(a) {
-  console.log("cart to be deleted:", cart[a]);
   let toBeLess = cart[a].amount;
-  console.log("tobeLess:", cart[a].amount);
+
   totalQuantity = totalQuantity - toBeLess;
 
   let sourceId = cart[a].id;
-  modifiedFruitList[sourceId].amount = 0;
 
-  console.log(
-    "fruit:",
-    modifiedFruitList[sourceId].title,
-    "amount is:",
-    modifiedFruitList[sourceId].amount
+  localStorage.setItem(
+    "UpListFrt",
+    JSON.stringify(
+      JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
+        item.id === sourceId
+          ? { ...item, roughCount: 0, amount: 0, btnVisible: true }
+          : item
+      )
+    )
   );
-  let realId = cart[a].id;
-  realId = "addToCartBtn_" + realId;
-
-  document.getElementById(realId).disabled = false;
-  document.getElementById(realId).style.display = "block";
 
   cart.splice(a, 1);
+  localStorage.setItem("basket", JSON.stringify(cart));
   displaySidebarCart();
+  displayCart();
 }
 
 function incrsAmInRight(i) {
