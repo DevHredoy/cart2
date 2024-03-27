@@ -49,7 +49,6 @@ function displayCart() {
     .map((item, i) => {
       let { image, title, price } = item;
 
-
       return `<div class='box'>
       <div class="adjust-button"  ><button id="plus-mod${i}" class="oper-button">+</button><span class="adjust-amount" id="rough-count${i}"> ${
         (JSON.parse(localStorage.getItem("UpListFrt")) ?? []).find(
@@ -390,34 +389,6 @@ function addToCart(index) {
 
       cart.push({ ...prevUpListFrtData[index] });
     } else {
-      modifiedFruitList[index].amount = modifiedFruitList[index].roughCount;
-
-      totalQuantity = totalQuantity + modifiedFruitList[index].roughCount;
-
-      cart.push({ ...modifiedFruitList[index] });
-
-      displaySidebarCart();
-      modifiedFruitList[index].roughCount = 0;
-      let tempid = "rough-count" + index;
-      document.getElementById(tempid).innerText =
-        modifiedFruitList[index].amount;
-
-      document.getElementById("count").innerText = totalQuantity;
-
-      // modifiedFruitList[index].amount
-
-      console.log(
-        "amount in modifiedfruitList:",
-        modifiedFruitList[index].amount
-      );
-      console.log(
-        "rough count of this fruit is :",
-        modifiedFruitList[index].rough
-      );
-      let tempIdd_ = "addToCartBtn_" + index;
-      document.getElementById(tempIdd_).disabled = true;
-      document.getElementById(tempIdd_).style.display = "none";
-    }
       // when button is visible but there is rough count and addtocart pressed
       prevUpListFrtData[index].amount = prevUpListFrtData[index].roughCount;
       prevUpListFrtData[index].roughCount = 0;
