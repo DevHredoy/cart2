@@ -164,7 +164,7 @@ function plusMod(indexOfFrtOrig) {
 
     // // UpListFrt :✔,button visible:❎,added in cart:✔;
     else {
-      // code for the left side,code to update the amount in left side, 
+      // code for the left side,code to update the amount in left side,
       localStorage.setItem(
         "UpListFrt",
         JSON.stringify(
@@ -177,18 +177,16 @@ function plusMod(indexOfFrtOrig) {
       );
 
       const updatedData = JSON.parse(localStorage.getItem("UpListFrt"));
-      const updatedItem=updatedData.find((item) => item.id === indexOfFrtOrig);
-            console.log("updated item:",updatedItem)
-      const updatedRoughCount = updatedItem.roughCount;
+      const updatedItem = updatedData.find(
+        (item) => item.id === indexOfFrtOrig
+      );
+      console.log("updated item:", updatedItem);
+      const updatedAmount = updatedItem.amount;
       let idCount = "rough-count" + indexOfFrtOrig;
 
-      document.getElementById(idCount).innerText = updatedRoughCount;
-
-
+      document.getElementById(idCount).innerText = updatedAmount;
 
       // code for the right side , code to update the amount in right side, if indexOfFrtOrig matches with the id of the carts items,incremented
-      
-
 
       localStorage.setItem(
         "basket",
@@ -203,7 +201,17 @@ function plusMod(indexOfFrtOrig) {
 
       //-------------------------------------------
 
+      cart.forEach((value, i) => {
+        if (indexOfFrtOrig == value.id) {
+          let idforAmRight = "amount-side_" + i;
 
+          let amountInCart = value.amount;
+
+          document.getElementById(idforAmRight).innerText = amountInCart;
+
+          displaySidebarCart();
+        }
+      });
     }
   }
 
@@ -222,71 +230,144 @@ function plusMod(indexOfFrtOrig) {
 }
 // minus left button
 
-function minusMod(indexOfFruitOrig) {
-  let tempIdd = "addToCartBtn_" + indexOfFruitOrig;
+function minusMod(indexOfFrtOrig) {
+  const updatedData = JSON.parse(localStorage.getItem("UpListFrt"));
 
-  // if addto button is disabled
-  if (document.getElementById(tempIdd).disabled) {
-    cart.forEach((value, i) => {
-      if (value.id == indexOfFruitOrig) {
-        //if amount is greater than 0
-        if (value.amount > 1) {
-          value.amount--;
-          totalQuantity--;
-          //change in left
-          let tempIdForLeft = "rough-count" + indexOfFruitOrig;
-          document.getElementById(tempIdForLeft).innerText = value.amount;
+  // const updatedItem = updatedData.find(
+  //   (item) => item.id === indexOfFrtOrig
+  // );
 
-          //change in right
-
-          let tmpIdForRight = "amount-side_" + i;
-          document.getElementById(tmpIdForRight).innerText = value.amount;
-
-          //change in totalquantity
-          document.getElementById("count").innerText = totalQuantity;
-          displaySidebarCart();
-        }
-        //if amount is 0 or smaller
-      }
-    });
-  }
-  // if cart is empty
-  else {
-    const updatedData = JSON.parse(localStorage.getItem("UpListFrt"));
-
-    const updatedItem = updatedData.find(
-      (item) => item.id === indexOfFruitOrig
-    );
-    const updatedRoughCount = updatedItem.roughCount;
-    if (updatedRoughCount > 1) {
-      localStorage.setItem(
-        "UpListFrt",
-        JSON.stringify(
-          JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
-            item.id === indexOfFruitOrig
-              ? { ...item, roughCount: item.roughCount - 1 }
-              : item
-          )
-        )
-      );
+  if (
+    updatedData[indexOfFrtOrig].roughCount > 1 ||
+    updatedData[indexOfFrtOrig].amount > 1
+  ) {
+    // if there is previous record from UpListFrt
+    if (
+      localStorage.getItem("UpListFrt") &&
+      localStorage.getItem("UpListFrt").length > 0
+    ) {
       const updatedData = JSON.parse(localStorage.getItem("UpListFrt"));
 
-      // Find the item with the specified id
-      const updatedItem = updatedData.find(
-        (item) => item.id === indexOfFruitOrig
-      );
+      const updatedItem = updatedData.find((item) => item.id == indexOfFrtOrig);
 
-      // Check if the item was found
-      if (updatedItem) {
-        // Access the updated roughCount
-        const updatedRoughCount = updatedItem.roughCount;
-        let idCount = "rough-count" + indexOfFruitOrig;
+      // UpListFrt :✔,button visible:✔,added in cart:❎;
+      if (updatedItem.btnVisible == true) {
+        //// UpListFrt :✔,button visible:✔,added in cart:❎,roughcount ==0;
+        if (updatedItem.roughCount == 0) {
+          localStorage.setItem(
+            "UpListFrt",
+            JSON.stringify(
+              JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
+                item.id === indexOfFrtOrig ? { ...item, roughCount: 1 } : item
+              )
+            )
+          );
+          const updatedRoughCount = updatedItem.roughCount;
+          let idCount = "rough-count" + indexOfFrtOrig;
 
-        document.getElementById(idCount).innerText = updatedRoughCount;
-      } else {
-        console.log("Item not found");
+          document.getElementById(idCount).innerText = updatedRoughCount;
+        }
+
+        // UpListFrt :✔,button visible:✔,added in cart:❎,roughcount >0;
+        else {
+          // from the storage item we have increased from the previous amount then inner html
+          localStorage.setItem(
+            "UpListFrt",
+            JSON.stringify(
+              JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
+                item.id === indexOfFrtOrig
+                  ? { ...item, roughCount: item.roughCount - 1 }
+                  : item
+              )
+            )
+          );
+          console.log("rough count is:");
+          const updatedData = JSON.parse(localStorage.getItem("UpListFrt"));
+
+          // Find the item with the specified id
+          const updatedItem = updatedData.find(
+            (item) => item.id === indexOfFrtOrig
+          );
+
+          // Check if the item was found
+          if (updatedItem) {
+            // Access the updated roughCount
+            const updatedRoughCount = updatedItem.roughCount;
+            let idCount = "rough-count" + indexOfFrtOrig;
+
+            document.getElementById(idCount).innerText = updatedRoughCount;
+            console.log("Updated roughCount:", updatedRoughCount);
+          } else {
+            console.log("Item not found");
+          }
+
+          displaySidebarCart();
+        }
       }
 
+      // // UpListFrt :✔,button visible:❎,added in cart:✔;
+      else {
+        // code for the left side,code to update the amount in left side,
+        localStorage.setItem(
+          "UpListFrt",
+          JSON.stringify(
+            JSON.parse(localStorage.getItem("UpListFrt")).map((item) =>
+              item.id === indexOfFrtOrig
+                ? { ...item, amount: item.amount - 1 }
+                : item
+            )
+          )
+        );
+
+        const updatedData = JSON.parse(localStorage.getItem("UpListFrt"));
+        const updatedItem = updatedData.find(
+          (item) => item.id === indexOfFrtOrig
+        );
+        console.log("updated item:", updatedItem);
+        const updatedAmount = updatedItem.amount;
+        let idCount = "rough-count" + indexOfFrtOrig;
+
+        document.getElementById(idCount).innerText = updatedAmount;
+
+        // code for the right side , code to update the amount in right side, if indexOfFrtOrig matches with the id of the carts items,incremented
+
+        localStorage.setItem(
+          "basket",
+          JSON.stringify(
+            JSON.parse(localStorage.getItem("basket")).map((item) =>
+              item.id === indexOfFrtOrig
+                ? { ...item, amount: item.amount - 1 }
+                : item
+            )
+          )
+        );
+
+        //-------------------------------------------
+
+        cart.forEach((value, i) => {
+          if (indexOfFrtOrig == value.id) {
+            let idforAmRight = "amount-side_" + i;
+
+            let amountInCart = value.amount;
+
+            document.getElementById(idforAmRight).innerText = amountInCart;
+
+            displaySidebarCart();
+          }
+        });
+      }
+    }
+
+    // if there is no previous record of UpListFrt
+    else {
+      let rof = modifiedFruitList[indexOfFrtOrig].roughCount - 1;
+
+      console.log("rof in the item now is :", rof);
+
+      let idCount = "rough-count" + indexOfFrtOrig;
+
+      document.getElementById(idCount).innerText = rof;
+      localStorage.setItem("UpListFrt", JSON.stringify(modifiedFruitList));
       displaySidebarCart();
     }
   }
