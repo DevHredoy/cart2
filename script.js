@@ -342,8 +342,6 @@ function minusMod(indexOfFrtOrig) {
           )
         );
 
-        //-------------------------------------------
-
         cart.forEach((value, i) => {
           if (indexOfFrtOrig == value.id) {
             let idforAmRight = "amount-side_" + i;
@@ -575,6 +573,7 @@ function decrsAmInRight(i) {
 
 function displaySidebarCart() {
   let total = 0;
+  let totalAmount = 0;
 
   // Retrieve the cart data from local storage
   let cartFromLocalStorage = JSON.parse(localStorage.getItem("basket")) || [];
@@ -592,6 +591,8 @@ function displaySidebarCart() {
         let totalPrice = price * amount;
         total = total + totalPrice;
 
+        totalAmount = totalAmount + amount;
+        document.getElementById("count").innerHTML = totalAmount;
         document.getElementById("total").innerHTML = "$ " + total + ".00";
 
         return `<div class='cart-item'>
