@@ -119,8 +119,7 @@ function plusMod(indexOfFrtOrig) {
             )
           )
         );
-        //const updatedRoughCount = updatedItem.roughCount;
-        // console.log("rough88count:", updatedRoughCount);
+
         let idCount = "rough-count" + indexOfFrtOrig;
 
         document.getElementById(idCount).innerText = 1;
@@ -139,7 +138,7 @@ function plusMod(indexOfFrtOrig) {
             )
           )
         );
-        console.log("rough count is:");
+
         const updatedData = JSON.parse(localStorage.getItem("UpListFrt"));
 
         // Find the item with the specified id
@@ -154,9 +153,7 @@ function plusMod(indexOfFrtOrig) {
           let idCount = "rough-count" + indexOfFrtOrig;
 
           document.getElementById(idCount).innerText = updatedRoughCount;
-          console.log("Updated roughCount:", updatedRoughCount);
         } else {
-          console.log("Item not found");
         }
 
         displaySidebarCart();
@@ -181,7 +178,7 @@ function plusMod(indexOfFrtOrig) {
       const updatedItem = updatedData.find(
         (item) => item.id === indexOfFrtOrig
       );
-      console.log("updated item:", updatedItem);
+
       const updatedAmount = updatedItem.amount;
       let idCount = "rough-count" + indexOfFrtOrig;
 
@@ -199,8 +196,6 @@ function plusMod(indexOfFrtOrig) {
           )
         )
       );
-
-      //-------------------------------------------
 
       cart.forEach((value, i) => {
         if (indexOfFrtOrig == value.id) {
@@ -220,8 +215,6 @@ function plusMod(indexOfFrtOrig) {
   else {
     let rof = modifiedFruitList[indexOfFrtOrig].roughCount + 1;
 
-    console.log("rof in the item now is :", rof);
-
     let idCount = "rough-count" + indexOfFrtOrig;
 
     document.getElementById(idCount).innerText = rof;
@@ -233,10 +226,6 @@ function plusMod(indexOfFrtOrig) {
 
 function minusMod(indexOfFrtOrig) {
   const updatedData = JSON.parse(localStorage.getItem("UpListFrt"));
-
-  // const updatedItem = updatedData.find(
-  //   (item) => item.id === indexOfFrtOrig
-  // );
 
   if (
     updatedData[indexOfFrtOrig].roughCount > 1 ||
@@ -282,7 +271,7 @@ function minusMod(indexOfFrtOrig) {
               )
             )
           );
-          console.log("rough count is:");
+
           const updatedData = JSON.parse(localStorage.getItem("UpListFrt"));
 
           // Find the item with the specified id
@@ -297,9 +286,7 @@ function minusMod(indexOfFrtOrig) {
             let idCount = "rough-count" + indexOfFrtOrig;
 
             document.getElementById(idCount).innerText = updatedRoughCount;
-            console.log("Updated roughCount:", updatedRoughCount);
           } else {
-            console.log("Item not found");
           }
 
           displaySidebarCart();
@@ -324,7 +311,7 @@ function minusMod(indexOfFrtOrig) {
         const updatedItem = updatedData.find(
           (item) => item.id === indexOfFrtOrig
         );
-        console.log("updated item:", updatedItem);
+
         const updatedAmount = updatedItem.amount;
         let idCount = "rough-count" + indexOfFrtOrig;
 
@@ -361,8 +348,6 @@ function minusMod(indexOfFrtOrig) {
     else {
       let rof = modifiedFruitList[indexOfFrtOrig].roughCount - 1;
 
-      console.log("rof in the item now is :", rof);
-
       let idCount = "rough-count" + indexOfFrtOrig;
 
       document.getElementById(idCount).innerText = rof;
@@ -388,18 +373,12 @@ function addToCart(index) {
     // If the item exists, update its btnVisible
     upListFrtData[existingItemIndex].btnVisible = false;
   }
-  // else {
-  //   // If the item doesn't exist, create a new item
-  //   upListFrtData.push({ id: idOfFruit, btnVisible: false });
-  // }
 
   // Save the updated or new data back to localStorage
   localStorage.setItem("UpListFrt", JSON.stringify(upListFrtData));
   let tempidy = "addToCartBtn_" + index;
   document.getElementById(tempidy).style.display = "none";
 
-  //-----------in js codeinput fix gpt chat the latest problem has been placed
-  //the below segment we have to change
   let prevUpListFrtData = JSON.parse(localStorage.getItem("UpListFrt")) || [];
 
   // Check if the "amount" property of the item with index "index" is 0 or not
@@ -407,16 +386,14 @@ function addToCart(index) {
     // Condition when the "amount" property is not 0
     if (prevUpListFrtData[index]?.roughCount == 0) {
       prevUpListFrtData[index].amount++;
-      //totalquantity++
+
       cart.push({ ...prevUpListFrtData[index] });
-      //  displaySidebarCart();
-      //  localStorage.setItem("UpListFrt", JSON.stringify(modifiedFruitList));
     } else {
       // when button is visible but there is rough count and addtocart pressed
       prevUpListFrtData[index].amount = prevUpListFrtData[index].roughCount;
       prevUpListFrtData[index].roughCount = 0;
       cart.push({ ...prevUpListFrtData[index] });
-      console.log("first");
+
       localStorage.setItem(
         "UpListFrt",
         JSON.stringify(
@@ -494,11 +471,8 @@ function incrsAmInRight(i) {
 
   // shall check if it syns or not
   let cartValue = currentItem.amount;
-  console.log("updated item's id:", tempId);
-  console.log("cart item's amount:", cartValue);
 
   if (!updatedItem.btnVisible) {
-    console.log("btn is not visible");
     localStorage.setItem(
       "UpListFrt",
       JSON.stringify(
@@ -549,11 +523,8 @@ function decrsAmInRight(i) {
 
     // shall check if it syns or not
     let cartValue = currentItem.amount;
-    console.log("updated item's id:", tempId);
-    console.log("cart item's amount:", cartValue);
 
     if (!updatedItem.btnVisible) {
-      console.log("btn is not visible");
       localStorage.setItem(
         "UpListFrt",
         JSON.stringify(
